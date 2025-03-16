@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom';
+import './home.css';
 
 const Home = () => {
   return (
-    <div>
-      <h1>ホームページ</h1>
-      <p>これはホームページです。</p>
-      <Link to="/about">Aboutページへ</Link>
+    <div className="home-container">
+      {/* アプリ名 */}
+      <h1 className="app-name">Reader me</h1>
+
+      {/* Textページに遷移するボタン */}
+      <Link to="/text">
+        <button className="navigate-btn">Go to Text</button>
+      </Link>
     </div>
   );
 };

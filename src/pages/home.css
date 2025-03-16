@@ -1,0 +1,37 @@
+/* コンテナ全体のスタイル */
+.home-container {
+  position: relative;
+  height: 100vh;
+  padding: 0 20px;
+  display: block;  /* フレックスボックスは使用しない */
+}
+
+/* アプリ名のスタイル */
+.app-name {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #32cd32; /* 黄緑色 */
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+/* Aboutページに遷移するボタン */
+.navigate-btn {
+  background-color: #32cd32; /* 黄緑色 */
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  position: fixed; /* 画面全体に対して固定 */
+  bottom: 20px;   /* 右下に配置 */
+  right: 20px;    /* 右下に配置 */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* ボタンのホバーエフェクト */
+.navigate-btn:hover {
+  background-color: #28a828;
+}

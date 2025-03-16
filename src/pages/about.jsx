@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom';
+import './home.css';  // home.cssを共通で使う
 
 const About = () => {
   return (
-    <div>
-      <h1>Aboutページ</h1>
-      <p>これはAboutページです。</p>
-      <Link to="/">ホームページへ</Link>
+    <div className="home-container">
+      {/* アプリ名 */}
+      <h1 className="app-name">Reader me</h1>
+
+      {/* Homeページに遷移するボタン */}
+      <Link to="/">
+        <button className="navigate-btn">Go to Home</button>
+      </Link>
     </div>
   );
 };
