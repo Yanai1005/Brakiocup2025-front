@@ -1,8 +1,8 @@
 # チーム「じょぎ」
 ## 概要
-ハックツハッカソンブラキオカップ2025 3/17-19
-[フロントエンド](https://github.com/Yanai1005/Brakiocup2025-front)
-[バックエンド](https://github.com/Yanai1005/Brakiocup2025-back)
+ハックツハッカソンブラキオカップ2025 3/17-19   
+[フロントエンド](https://github.com/Yanai1005/Brakiocup2025-front)     
+[バックエンド](https://github.com/Yanai1005/Brakiocup2025-back)   
 ### プロダクト概要
 
 ### メンバー
