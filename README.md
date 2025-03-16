@@ -1,12 +1,23 @@
-# React + Vite
+# チーム「じょぎ」
+## 概要
+ハックツハッカソンブラキオカップ2025 3/17-19
+[フロントエンド](https://github.com/Yanai1005/Brakiocup2025-front)
+[バックエンド](https://github.com/Yanai1005/Brakiocup2025-back)
+### プロダクト概要
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### メンバー
+- [柳井](https://github.com/Yanai1005)
+- [三原](https://github.com/NazonoKansatugata)
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 環境構築
+1. リポジトリをクローン:  
+   SSHの場合  
+    `git clone git@github.com:Yanai1005/Brakiocup2025-front.git`  
+    HTTPSの場合  
+    `git clone https://github.com/Yanai1005/Brakiocup2025-front.git`  
+2. プロジェクトディレクトリに移動:  
+    `cd Brakiocup2025-front`  
+3. パッケージのインストール:
+   `npm install`  
+4. プロジェクトの実行:
+   `npm run dev`
