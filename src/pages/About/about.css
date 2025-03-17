@@ -1,9 +1,9 @@
 /* コンテナ全体のスタイル */
 .about-container {
-  position: relative;
-  height: 100vh;
-  padding: 0 20px;
+  padding: 20px;
   display: block;  /* フレックスボックスは使用しない */
+  height: 100%; /* コンテンツが画面の高さにフィットする */
+  box-sizing: border-box;
 }
 
 /* アプリ名のスタイル */
@@ -11,9 +11,15 @@
   font-size: 4rem;
   font-weight: bold;
   color: #32cd32; /* 黄緑色 */
-  position: absolute;
-  top: 20px;
-  left: 20px;
+  margin-top: 20px;  /* 上部に余白を追加 */
+  margin-bottom: 30px; /* アプリ名とコンテンツの間に余白を追加 */
+}
+
+/* 文章や評価の表示スタイル */
+p, pre {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 20px; /* 各コンテンツの間に余白 */
 }
 
 /* Aboutページに遷移するボタン */
