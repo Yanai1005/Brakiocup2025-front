@@ -16,19 +16,19 @@ const About = () => {
 
   if (score >= 90) {
     grade = 'A';
-    imagePath = '/images/tree5.png';
+    imagePath = '/images/A.png';
   } else if (score >= 80) {
     grade = 'B';
-    imagePath = '/images/tree4.png';
+    imagePath = '/images/B.png';
   } else if (score >= 70) {
     grade = 'C';
-    imagePath = '/images/tree3.png';
+    imagePath = '/images/C.png';
   } else if (score >= 60) {
     grade = 'D';
-    imagePath = '/images/tree2.png';
+    imagePath = '/images/D.png';
   } else {
     grade = 'E';
-    imagePath = '/images/tree1.png';
+    imagePath = '/images/E.png';
   }
 
   useEffect(() => {
@@ -77,10 +77,6 @@ const About = () => {
       <pre>{textContent}</pre>
 
       <p>あなたの評価: {grade}</p>
-
-      <div className="image-container">
-        <img src={imagePath} alt="評価に基づく画像" className="tree-image" />
-      </div>
     
       <div className="three-container" ref={threeContainerRef}></div>
 
