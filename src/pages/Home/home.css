@@ -1,8 +1,15 @@
 .home-container {
-  position: relative;
-  height: 100vh;
-  padding: 0 20px;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.three-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
 }
 
 .app-name {

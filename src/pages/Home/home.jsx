@@ -5,8 +5,8 @@ import * as THREE from 'three'
 
 const Home = () => {
   
+  //useEffectの3dmodelを右画面だけにしたい
   useEffect(() => {
-    // 問題:他のページでもでてしまう 画面遷移するときにuseEffectの処理を止める方法があるかあるか
     const camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
     camera.position.z = 1;
 
@@ -19,7 +19,7 @@ const Home = () => {
     scene.add( mesh );
 
     const renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( window.innerWidth / 2, window.innerHeight / 2 );
     renderer.setAnimationLoop( animation );
     document.body.appendChild( renderer.domElement );
 
