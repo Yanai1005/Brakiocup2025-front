@@ -7,12 +7,11 @@ const About = () => {
   const location = useLocation();
   const threeContainerRef = useRef(null);
 
-  const textLength = location.state ? location.state.textLength : 0;
-  const textContent = location.state ? location.state.textContent : '';
   const score = location.state ? location.state.score : 0;
+  const evaluation = location.state ? location.state.evaluation : null;
 
   let grade = '';
-  let imagePath = ''; 
+  let imagePath = '';
 
   if (score >= 90) {
     grade = 'A';
@@ -32,7 +31,7 @@ const About = () => {
   }
 
   useEffect(() => {
-    const camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
+    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
     camera.position.z = 1;
 
     const scene = new THREE.Scene();
@@ -42,22 +41,22 @@ const About = () => {
     const texture = textureLoader.load(imagePath);
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
-    const mesh = new THREE.Mesh( geometry, material );
-    scene.add( mesh );
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
-    const renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setSize( window.innerWidth / 2, window.innerHeight / 2 );
-    renderer.setAnimationLoop( animation );
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+    renderer.setAnimationLoop(animation);
 
     if (threeContainerRef.current && !threeContainerRef.current.hasChildNodes()) {
-      threeContainerRef.current.appendChild( renderer.domElement );
+      threeContainerRef.current.appendChild(renderer.domElement);
     }
 
     // animation
     function animation(time) {
       mesh.rotation.x = time / 2000;
       mesh.rotation.y = time / 1000;
-      renderer.render( scene, camera );
+      renderer.render(scene, camera);
     }
 
     return () => {
@@ -72,19 +71,17 @@ const About = () => {
     <div className="about-container">
       <h1 className="app-name">Reader me</h1>
 
-      <p>Textページで入力された文字数: {textLength}文字</p>
-      <p>入力された文章:</p>
-      <pre>{textContent}</pre>
-
-      <p>あなたの評価: {grade}</p>
-    
+      <p>あなたの評価: {grade} (スコア: {score}点)</p>
+      {evaluation && (
+        <div className="evaluation-details">
+          <h2>評価詳細</h2>
+          <li>点数: {evaluation.total_score}/50</li>
+        </div>
+      )}
       <div className="three-container" ref={threeContainerRef}></div>
-
       <Link to="/">
         <button className="navigate-btn">Go to Home</button>
       </Link>
-
-      
     </div>
   );
 };
