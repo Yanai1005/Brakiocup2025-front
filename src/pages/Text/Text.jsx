@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './text.css';
 import { evaluateReadme } from '../../api/evaluateReadme';
 
@@ -14,10 +14,32 @@ const Text = () => {
   };
 
   const handleScoreChange = (event) => {
-    const value = Math.max(0, Math.min(100, event.target.value));
+    const value = Math.max(0, Math.min(100, parseInt(event.target.value) || 0));
     setScore(value);
   };
 
+  // 手動スコア入力三原くんのために追加
+  const handleManualScore = () => {
+    const rawScore = Math.round((score / 100) * 50);
+
+    const itemScore = Math.round((score / 100) * 10);
+
+    navigate('/about', {
+      state: {
+        textLength: text.length,
+        textContent: text,
+        score: score,
+        evaluation: {
+          total_score: rawScore,
+          clarity: itemScore,
+          completeness: itemScore,
+          structure: itemScore,
+          examples: itemScore,
+          readability: itemScore
+        }
+      }
+    });
+  };
   // Readmeの評価
   const handleEvaluate = async () => {
     setIsLoading(true);
@@ -40,6 +62,7 @@ const Text = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="text-container">
       <h1 className="app-name">Reader me</h1>
@@ -63,21 +86,21 @@ const Text = () => {
           min="0"
           max="100"
         />
+        <button
+          className="score-btn"
+          onClick={handleManualScore}
+        >
+          スコアを適用
+        </button>
       </div>
 
       <div className="button-container">
-        <Link to="/about" state={{ textLength: text.length, textContent: text, score: score }}>
-          <button className="navigate-btn">Go to About</button>
-        </Link>
-        {/* Geminiでの評価ボタン 不要なリクエストを防ぐためコメントアウト */}
-        {/* <button
+        <button
           className="navigate-btn"
-          onClick={handleEvaluate}
-          disabled={isLoading}
+          onClick={handleManualScore}
         >
-          {isLoading ? '評価中...' : 'READMEを評価する'}
-        </button> */}
-
+          Go to About
+        </button>
       </div>
     </div>
   );
