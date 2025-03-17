@@ -6,7 +6,7 @@ import * as THREE from 'three'
 const Home = () => {
   
   useEffect(() => {
-    // 物体が何個も表示されてしまい、他のページでもでてしまう
+    // 問題:他のページでもでてしまう 画面遷移するときにuseEffectの処理を止める方法があるかあるか
     const camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
     camera.position.z = 1;
 
@@ -28,6 +28,13 @@ const Home = () => {
       mesh.rotation.x = time / 2000;
       mesh.rotation.y = time / 1000;
       renderer.render( scene, camera );
+    }
+    
+    return () => {
+      scene.remove(mesh);
+      renderer.domElement.remove();
+      mesh.material.dispose();
+      mesh.geometry.dispose();
     }
   }, [])
 
