@@ -1,7 +1,7 @@
 import { useLocation, Link } from 'react-router-dom';
 import './about.css';
-import React, { useEffect, useRef } from "react"
-import * as THREE from 'three'
+import React, { useEffect, useRef } from "react";
+import * as THREE from 'three';
 
 const About = () => {
   const location = useLocation();
@@ -9,6 +9,7 @@ const About = () => {
 
   const score = location.state ? location.state.score : 0;
   const evaluation = location.state ? location.state.evaluation : null;
+  const repoInfo = location.state && location.state.repoInfo ? location.state.repoInfo : null;
 
   let grade = '';
   let imagePath = '';
@@ -65,17 +66,24 @@ const About = () => {
       mesh.material.dispose();
       mesh.geometry.dispose();
     }
-  }, [imagePath])
+  }, [imagePath]);
 
   return (
-    <div className="about-container">
+    <div>
       <h1 className="app-name">Reader me</h1>
-
-      <p>あなたの評価: {grade} (スコア: {score}点)</p>
+      {repoInfo && (
+        <div>
+          <h2>リポジトリ 詳細</h2>
+          <p>Owner: <a href={`https://github.com/${repoInfo.owner}`} target="_blank" rel="noopener noreferrer">{repoInfo.owner}</a></p>
+          <p>Repository: <a href={`https://github.com/${repoInfo.owner}/${repoInfo.repo}`} target="_blank" rel="noopener noreferrer">{repoInfo.repo}</a></p>
+        </div>
+      )}
       {evaluation && (
         <div className="evaluation-details">
           <h2>評価詳細</h2>
-          <li>点数: {evaluation.total_score}/50</li>
+          <ul>
+            <p>あなたの評価: {grade} (スコア: {score}点)</p>
+          </ul>
         </div>
       )}
       <div className="three-container" ref={threeContainerRef}></div>
