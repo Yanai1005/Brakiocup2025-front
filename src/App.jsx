@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home/Home';
+import Home from './pages/Home/home';
 import Text from './pages/Text/Text';
-import About from './pages/About/About';
-import './App.css'; // アプリ全体のスタイル
+import About from './pages/About/about';
+import './App.css';
 
 function App() {
   return (

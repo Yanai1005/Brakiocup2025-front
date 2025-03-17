@@ -1,43 +1,50 @@
-/* コンテナ全体のスタイル */
 .about-container {
   padding: 20px;
-  display: block;  /* フレックスボックスは使用しない */
-  height: 100%; /* コンテンツが画面の高さにフィットする */
+  display: block;
+  height: 100%;
   box-sizing: border-box;
 }
 
-/* アプリ名のスタイル */
 .app-name {
   font-size: 4rem;
   font-weight: bold;
-  color: #32cd32; /* 黄緑色 */
-  margin-top: 20px;  /* 上部に余白を追加 */
-  margin-bottom: 30px; /* アプリ名とコンテンツの間に余白を追加 */
+  color: #32cd32;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
-/* 文章や評価の表示スタイル */
+
 p, pre {
   font-size: 1.2rem;
   line-height: 1.5;
-  margin-bottom: 20px; /* 各コンテンツの間に余白 */
+  margin-bottom: 20px;
 }
 
-/* Aboutページに遷移するボタン */
+.image-container {
+  text-align: center;
+  margin-top: 20px; 
+}
+
+.tree-image {
+  max-width: 100%;
+  height: auto;
+  max-height: 400px;
+}
+
 .navigate-btn {
-  background-color: #32cd32; /* 黄緑色 */
+  background-color: #32cd32;
   color: white;
   border: none;
   padding: 15px 30px;
   font-size: 1.2rem;
   border-radius: 8px;
-  position: fixed; /* 画面全体に対して固定 */
-  bottom: 20px;   /* 右下に配置 */
-  right: 20px;    /* 右下に配置 */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-/* ボタンのホバーエフェクト */
 .navigate-btn:hover {
   background-color: #28a828;
 }

@@ -4,14 +4,13 @@ import './text.css';
 
 const Text = () => {
   const [text, setText] = useState('');
-  const [score, setScore] = useState(0); // 点数を管理するためのstate
+  const [score, setScore] = useState(0);
 
   const handleTextChange = (event) => {
     setText(event.target.value);
   };
 
   const handleScoreChange = (event) => {
-    // 入力された値が0〜100の範囲内であるかをチェック
     const value = Math.max(0, Math.min(100, event.target.value));
     setScore(value);
   };
@@ -29,7 +28,7 @@ const Text = () => {
         ></textarea>
       </div>
 
-      {/* 点数入力欄 */}
+
       <div className="score-container">
         <label htmlFor="score">点数 (0〜100): </label>
         <input
@@ -42,7 +41,6 @@ const Text = () => {
         />
       </div>
 
-      {/* 文字数と文章そのものをstateとして渡す */}
       <Link to="/about" state={{ textLength: text.length, textContent: text, score: score }}>
         <button className="navigate-btn">Go to About</button>
       </Link>
