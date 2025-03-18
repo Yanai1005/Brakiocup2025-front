@@ -2,6 +2,10 @@ import { useLocation, Link } from 'react-router-dom';
 import './about.css';
 import React, { useEffect, useRef } from "react";
 import * as THREE from 'three';
+import { Radar } from 'react-chartjs-2';
+import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 const About = () => {
   const location = useLocation();
@@ -18,22 +22,22 @@ const About = () => {
   let numObjects = '';
   let numObjects2 = '';
 
-  if (score >= 90) {
+  if (score >= 80) {
     grade = 'A';
     imagePath = '/images/yukiSDIM11451799_TP_V.webp';
     numObjects = score * 4;
     numObjects2 = score * 30;
-  } else if (score >= 80) {
+  } else if (score >= 60) {
     grade = 'B';
     imagePath = '/images/20170513022128.jpg';
     numObjects = score * 3;
     numObjects2 = score * 20;
-  } else if (score >= 60) {
+  } else if (score >= 40) {
     grade = 'C';
     imagePath = '/images/jimen02_01.jpg';
     numObjects = score * 2;
     numObjects2 = score * 15;
-  } else if (score >= 40) {
+  } else if (score >= 20) {
     grade = 'D';
     imagePath = '/images/top-view-soil_23-2148175893.jpg';
     numObjects = score * 1;
@@ -65,7 +69,7 @@ const About = () => {
     const smallConeMaterial = new THREE.MeshBasicMaterial({ map: texture3 });
 
     const largeConeGeometry = new THREE.ConeGeometry(0.05, 0.1, 8);
-    const smallConeGeometry = new THREE.ConeGeometry(0.02, 0.05, 6);
+    const smallConeGeometry = new THREE.ConeGeometry(0.02, 0.03, 6);
 
     for (let i = 0; i < numObjects; i++) {
       const coneMesh = new THREE.Mesh(largeConeGeometry, largeConeMaterial);
@@ -135,8 +139,37 @@ const About = () => {
     };
   }, [imagePath, score]);
 
+  const radarData = {
+    labels: ['明確さ', '完全性', '構造化', '例示', '可読性'],
+    datasets: [
+      {
+        label: '評価',
+        data: [
+          evaluation?.clarity ? Math.floor(evaluation.clarity) * 2 : 0,
+          evaluation?.completeness ? Math.floor(evaluation.completeness) * 2 : 0,
+          evaluation?.structure ? Math.floor(evaluation.structure) * 2 : 0,
+          evaluation?.examples ? Math.floor(evaluation.examples) * 2 : 0,
+          evaluation?.readability ? Math.floor(evaluation.readability) * 2 : 0,
+        ],
+        backgroundColor: 'rgba(34, 202, 236, 0.2)',
+        borderColor: 'rgba(34, 202, 236, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+  const radarOptions = {
+    scales: {
+      r: {
+        min: 0,
+        max: 20,
+        ticks: {
+          stepSize: 5,
+        },
+      },
+    },
+  };
   return (
-    <div>
+    <div className="about-container">
       <h1 className="app-name">Reader me</h1>
       {repoInfo && (
         <div>
@@ -149,13 +182,7 @@ const About = () => {
       {evaluation && (
         <div className="evaluation-details">
           <h2>評価詳細</h2>
-          <ul>
-            {evaluation.clarity !== undefined && <li>明確さ: {Math.floor(evaluation.clarity) * 2}/20</li>}
-            {evaluation.completeness !== undefined && <li>完全性: {Math.floor(evaluation.completeness) * 2}/20</li>}
-            {evaluation.structure !== undefined && <li>構造化: {Math.floor(evaluation.structure) * 2}/20</li>}
-            {evaluation.examples !== undefined && <li>例示: {Math.floor(evaluation.examples) * 2}/20</li>}
-            {evaluation.readability !== undefined && <li>可読性: {Math.floor(evaluation.readability) * 2}/20</li>}
-          </ul>
+          <Radar data={radarData} options = {radarOptions}/>
         </div>
       )}
       <div className="three-container" ref={threeContainerRef}></div>
