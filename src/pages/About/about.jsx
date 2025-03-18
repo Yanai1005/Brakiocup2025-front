@@ -125,11 +125,16 @@ const About = () => {
           <p>Repository: <a href={`https://github.com/${repoInfo.owner}/${repoInfo.repo}`} target="_blank" rel="noopener noreferrer">{repoInfo.repo}</a></p>
         </div>
       )}
+      <p>あなたの評価: {grade} (スコア: {score}点)</p>
       {evaluation && (
         <div className="evaluation-details">
           <h2>評価詳細</h2>
           <ul>
-            <p>あなたの評価: {grade} (スコア: {score}点)</p>
+            {evaluation.clarity !== undefined && <li>明確さ: {Math.floor(evaluation.clarity)}/20</li>}
+            {evaluation.completeness !== undefined && <li>完全性: {Math.floor(evaluation.completeness)}/20</li>}
+            {evaluation.structure !== undefined && <li>構造化: {Math.floor(evaluation.structure)}/20</li>}
+            {evaluation.examples !== undefined && <li>例示: {Math.floor(evaluation.examples)}/20</li>}
+            {evaluation.readability !== undefined && <li>可読性: {Math.floor(evaluation.readability)}/20</li>}
           </ul>
         </div>
       )}
