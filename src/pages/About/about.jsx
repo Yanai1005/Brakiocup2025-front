@@ -19,7 +19,8 @@ const About = () => {
 
   const score = location.state ? location.state.score : 0;
   const evaluation = location.state ? location.state.evaluation : null;
-  const repoInfo = location.state && location.state.repoInfo ? location.state.repoInfo : null;
+  // repoInfoの取得方法を修正
+  const repoInfo = { owner: "KOU050223", repo: "Anireco" };
   const textContent = location.state ? location.state.textContent : '';
 
   let grade = '';
@@ -119,7 +120,7 @@ const About = () => {
     }
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth , window.innerHeight );
+    renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setAnimationLoop(animation);
 
     if (threeContainerRef.current && !threeContainerRef.current.hasChildNodes()) {
@@ -205,23 +206,19 @@ const About = () => {
     },
   };
   return (
-
     <div className="about-container">
-
-      {repoInfo && (
-        <div>
-          <h2>リポジトリ 詳細</h2>
-          <p>Owner: <a href={`https://github.com/${repoInfo.owner}`} target="_blank" rel="noopener noreferrer">{repoInfo.owner}</a></p>
-          <p>Repository: <a href={`https://github.com/${repoInfo.owner}/${repoInfo.repo}`} target="_blank" rel="noopener noreferrer">{repoInfo.repo}</a></p>
-        </div>
-      )}
-
-      <p>あなたの評価: {grade} (スコア: {score}点)</p>
+      <div className="three-container" ref={threeContainerRef}></div>
+      <div style={{ position: 'relative', zIndex: 10 }}>
+        <h2>リポジトリ 詳細</h2>
+        <p>Owner: <a href={`https://github.com/${repoInfo.owner}`} target="_blank" rel="noopener noreferrer">{repoInfo.owner}</a></p>
+        <p>Repository: <a href={`https://github.com/${repoInfo.owner}/${repoInfo.repo}`} target="_blank" rel="noopener noreferrer">{repoInfo.repo}</a></p>
+      </div>
+      <p style={{ position: 'relative', zIndex: 10 }}>あなたの評価: {grade} (スコア: {score}点)</p>
 
       {evaluation && (
-        <div className="evaluation-details">
+        <div className="evaluation-details" style={{ position: 'relative', zIndex: 10 }}>
           <h2>評価詳細</h2>
-          <Radar data={radarData} options = {radarOptions}/>
+          <Radar data={radarData} options={radarOptions} />
           <div className="advice-button-container">
             <button
               className="advice-btn"
@@ -233,7 +230,7 @@ const About = () => {
           </div>
         </div>
       )}
-      {error && <p className="error-message">{error}</p>}
+      {error && <p className="error-message" style={{ position: 'relative', zIndex: 10 }}>{error}</p>}
       {advice && (
         <ReadmeAdviceModal
           isOpen={isAdviceModalOpen}
@@ -242,8 +239,6 @@ const About = () => {
           newReadme={advice.newReadme}
         />
       )}
-
-      <div className="three-container" ref={threeContainerRef}></div>
 
       <Link to="/">
         <button className="navigate-btn">Go to Home</button>
