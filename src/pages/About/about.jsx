@@ -18,29 +18,29 @@ const About = () => {
 
   if (score >= 90) {
     grade = 'A';
-    numObjects = '30';
-    imagePath = '/images/A.png';
-    imagePath2 = '/images/grass-texture.jpg';
+    numObjects = '100';
+    imagePath = '/images/grass-texture.jpg';
+    imagePath2 = '/images/green-leaves.jpg';
   } else if (score >= 80) {
     grade = 'B';
-    numObjects = '25';
-    imagePath = '/images/B.png';
-    imagePath2 = '/images/grass-texture.jpg';
+    numObjects = '80';
+    imagePath = '/images/grass-texture.jpg';
+    imagePath2 = '/images/green-leaves.jpg';
   } else if (score >= 70) {
     grade = 'C';
-    numObjects = '20';
-    imagePath = '/images/C.png';
-    imagePath2 = '/images/grass-texture.jpg';
+    numObjects = '60';
+    imagePath = '/images/grass-texture.jpg';
+    imagePath2 = '/images/green-leaves.jpg';
   } else if (score >= 60) {
     grade = 'D';
-    numObjects = '15';
-    imagePath = '/images/D.png';
-    imagePath2 = '/images/grass-texture.jpg';
+    numObjects = '40';
+    imagePath = '/images/grass-texture.jpg';
+    imagePath2 = '/images/green-leaves.jpg';
   } else {
     grade = 'E';
-    numObjects = '10';
-    imagePath = '/images/E.png';
-    imagePath2 = '/images/grass-texture.jpg';
+    numObjects = '30';
+    imagePath = '/images/grass-texture.jpg';
+    imagePath2 = '/images/green-leaves.jpg';
   }
 
   useEffect(() => {
@@ -64,15 +64,15 @@ const About = () => {
     let attachedMaterial = new THREE.MeshBasicMaterial({ map: texture2 });
 
     if (score >= 90) {
-      attachedGeometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    } else if (score >= 80) {
-      attachedGeometry = new THREE.ConeGeometry(0.1, 0.2, 32);
-    } else if (score >= 70) {
-      attachedGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.2, 32);
-    } else if (score >= 60) {
-      attachedGeometry = new THREE.TorusGeometry(0.1, 0.03, 16, 100);
-    } else {
       attachedGeometry = new THREE.SphereGeometry(0.1, 32, 32);
+    } else if (score >= 80) {
+      attachedGeometry = new THREE.SphereGeometry(0.08, 32, 32);
+    } else if (score >= 70) {
+      attachedGeometry = new THREE.SphereGeometry(0.05, 32, 32);
+    } else if (score >= 60) {
+      attachedGeometry = new THREE.SphereGeometry(0.03, 32, 32);
+    } else {
+      attachedGeometry = new THREE.SphereGeometry(0.01, 32, 32);
     }
 
     
