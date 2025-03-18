@@ -2,9 +2,12 @@ import { useLocation, Link } from 'react-router-dom';
 import './about.css';
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from 'three';
+import { Radar } from 'react-chartjs-2';
+import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 import { getReadmeAdvice } from '../../api/getReadmeAdvice';
 import ReadmeAdviceModal from '../../components/ReadmeAdviceModal';
 
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 const About = () => {
   const location = useLocation();
   const threeContainerRef = useRef(null);
@@ -22,25 +25,34 @@ const About = () => {
   let imagePath = '';
   let imagePath2 = '/images/green-leaves.jpg';
   let imagePath3 = '/images/dd_grass_01.jpg';
-  let numObjects = score * 2;
-  let numObjects2 = score * 30;
+  let numObjects = '';
+  let numObjects2 = '';
 
-  if (score >= 90) {
+  if (score >= 80) {
     grade = 'A';
     imagePath = '/images/yukiSDIM11451799_TP_V.webp';
-  } else if (score >= 80) {
-    grade = 'B';
-    imagePath = '/images/jimen02_01.jpg';
-  } else if (score >= 70) {
-    grade = 'C';
-    imagePath = '/images/20170513022128.jpg';
+    numObjects = score * 4;
+    numObjects2 = score * 30;
   } else if (score >= 60) {
+    grade = 'B';
+    imagePath = '/images/20170513022128.jpg';
+    numObjects = score * 3;
+    numObjects2 = score * 20;
+  } else if (score >= 40) {
+    grade = 'C';
+    imagePath = '/images/jimen02_01.jpg';
+    numObjects = score * 2;
+    numObjects2 = score * 15;
+  } else if (score >= 20) {
     grade = 'D';
-    imagePath = '/images/土の枯.jpg';
+    imagePath = '/images/top-view-soil_23-2148175893.jpg';
+    numObjects = score * 1;
+    numObjects2 = score * 10;
   } else {
     grade = 'E';
-    imagePath = '/images/top-view-soil_23-2148175893.jpg';
-    imagePath2 = '/images/green-leaves.jpg';
+    imagePath = '/images/closeup.jpg';
+    numObjects = score * 0;
+    numObjects2 = score * 5;
   }
 
   useEffect(() => {
@@ -63,7 +75,7 @@ const About = () => {
     const smallConeMaterial = new THREE.MeshBasicMaterial({ map: texture3 });
 
     const largeConeGeometry = new THREE.ConeGeometry(0.05, 0.1, 8);
-    const smallConeGeometry = new THREE.ConeGeometry(0.02, 0.05, 6);
+    const smallConeGeometry = new THREE.ConeGeometry(0.02, 0.03, 6);
 
     for (let i = 0; i < numObjects; i++) {
       const coneMesh = new THREE.Mesh(largeConeGeometry, largeConeMaterial);
@@ -105,6 +117,13 @@ const About = () => {
       sphere.add(coneMesh);
     }
 
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+    scene.add(ambientLight);
+
+    const pointLight = new THREE.PointLight(0xffffff, 0.5);
+    pointLight.position.set(1, 1, 1);
+    scene.add(pointLight);
+
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
     renderer.setAnimationLoop(animation);
@@ -114,8 +133,7 @@ const About = () => {
     }
 
     function animation(time) {
-      sphere.rotation.x = time / 2000;
-      sphere.rotation.y = time / 1000;
+      sphere.rotation.y = time / 10000;
       renderer.render(scene, camera);
     }
 
@@ -129,6 +147,34 @@ const About = () => {
     };
   }, [imagePath, score]);
 
+  const radarData = {
+    labels: ['明確さ', '完全性', '構造化', '例示', '可読性'],
+    datasets: [
+      {
+        label: '評価',
+        data: [
+          evaluation?.clarity ? Math.floor(evaluation.clarity) * 2 : 0,
+          evaluation?.completeness ? Math.floor(evaluation.completeness) * 2 : 0,
+          evaluation?.structure ? Math.floor(evaluation.structure) * 2 : 0,
+          evaluation?.examples ? Math.floor(evaluation.examples) * 2 : 0,
+          evaluation?.readability ? Math.floor(evaluation.readability) * 2 : 0,
+        ],
+        backgroundColor: 'rgba(34, 202, 236, 0.2)',
+        borderColor: 'rgba(34, 202, 236, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+  const radarOptions = {
+    scales: {
+      r: {
+        min: 0,
+        max: 20,
+        ticks: {
+          stepSize: 5,
+        },
+      },
+    },
   const handleGetAdvice = async () => {
     setIsLoading(true);
     setError('');
@@ -153,7 +199,7 @@ const About = () => {
     setIsModalOpen(false);
   };
   return (
-    <div>
+    <div className="about-container">
       <h1 className="app-name">Reader me</h1>
       {repoInfo && (
         <div>
@@ -166,13 +212,7 @@ const About = () => {
       {evaluation && (
         <div className="evaluation-details">
           <h2>評価詳細</h2>
-          <ul>
-            {evaluation.clarity !== undefined && <li>明確さ: {Math.floor(evaluation.clarity) * 2}/20</li>}
-            {evaluation.completeness !== undefined && <li>完全性: {Math.floor(evaluation.completeness) * 2}/20</li>}
-            {evaluation.structure !== undefined && <li>構造化: {Math.floor(evaluation.structure) * 2}/20</li>}
-            {evaluation.examples !== undefined && <li>例示: {Math.floor(evaluation.examples) * 2}/20</li>}
-            {evaluation.readability !== undefined && <li>可読性: {Math.floor(evaluation.readability) * 2}/20</li>}
-          </ul>
+          <Radar data={radarData} options = {radarOptions}/>
           <div className="advice-button-container">
             <button
               className="advice-btn"
