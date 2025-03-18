@@ -57,39 +57,48 @@ const About = () => {
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
 
-    // メモ:ここで物体の大きさや形をscoreに応じて変更したい
-    // メモ:同じ物体をいっぱい作って、それぞれの物体に違うスコアに応じた形や大きさを設定してもいいかもしれない
-    let attachedGeometry;
     const texture2 = textureLoader.load(imagePath2);
-    let attachedMaterial = new THREE.MeshBasicMaterial({ map: texture2 });
+    const coneMaterial = new THREE.MeshBasicMaterial({ map: texture2 });
+
+    let coneGeometry;
 
     if (score >= 90) {
-      attachedGeometry = new THREE.SphereGeometry(0.1, 32, 32);
+      coneGeometry = new THREE.ConeGeometry(0.05, 0.2, 8);
     } else if (score >= 80) {
-      attachedGeometry = new THREE.SphereGeometry(0.08, 32, 32);
+      coneGeometry = new THREE.ConeGeometry(0.04, 0.16, 8);
     } else if (score >= 70) {
-      attachedGeometry = new THREE.SphereGeometry(0.05, 32, 32);
+      coneGeometry = new THREE.ConeGeometry(0.03, 0.12, 6);
     } else if (score >= 60) {
-      attachedGeometry = new THREE.SphereGeometry(0.03, 32, 32);
+      coneGeometry = new THREE.ConeGeometry(0.02, 0.08, 6);
     } else {
-      attachedGeometry = new THREE.SphereGeometry(0.01, 32, 32);
+      coneGeometry = new THREE.ConeGeometry(0.01, 0.04, 4);
     }
 
-
     for (let i = 0; i < numObjects; i++) {
-      const attachedMesh = new THREE.Mesh(attachedGeometry, attachedMaterial);
+      const coneMesh = new THREE.Mesh(coneGeometry, coneMaterial);
 
 
       const phi = Math.acos(2 * Math.random() - 1);
       const theta = 2 * Math.PI * Math.random();
-      const radius = 0.5;
-      attachedMesh.position.set(
-        radius * Math.sin(phi) * Math.cos(theta),
-        radius * Math.sin(phi) * Math.sin(theta),
-        radius * Math.cos(phi)
-      );
 
-      sphere.add(attachedMesh);
+      const radius = 0.5;
+      const x = radius * Math.sin(phi) * Math.cos(theta);
+      const y = radius * Math.sin(phi) * Math.sin(theta);
+      const z = radius * Math.cos(phi);
+
+
+      coneMesh.position.set(x, y, z);
+
+      // メモ:法線ベクトルでやってみる
+      const normal = new THREE.Vector3(x, y, z).normalize();
+
+
+      coneMesh.lookAt(normal);
+
+
+      coneMesh.rotateX(Math.PI / 2);
+
+      sphere.add(coneMesh);
     }
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -100,7 +109,6 @@ const About = () => {
       threeContainerRef.current.appendChild(renderer.domElement);
     }
 
-    // animation
     function animation(time) {
       sphere.rotation.x = time / 2000;
       sphere.rotation.y = time / 1000;
