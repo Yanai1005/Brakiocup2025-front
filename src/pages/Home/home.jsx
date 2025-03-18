@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './home.css';
 import React, { useEffect, useState } from "react";
 import * as THREE from 'three';
@@ -10,6 +10,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const navigate = useNavigate();
 
 
@@ -57,9 +58,16 @@ const Home = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setError('');
     setShowAlert(false);
+
+    if (!repoUrl.trim()) {
+      setAlertMessage('URLを設定してください');
+      setShowAlert(true);
+      return;
+    }
+
+    setIsLoading(true);
 
     try {
       const { owner, repo } = parseRepoUrl(repoUrl);
@@ -82,6 +90,7 @@ const Home = () => {
       } catch (fetchError) {
         console.error('Fetch Error:', fetchError);
         if (fetchError.message.includes('404') || fetchError.status === 404) {
+          setAlertMessage('README.mdがありません');
           setShowAlert(true);
         } else {
           setError(fetchError.message || 'Failed to fetch README content');
@@ -123,7 +132,7 @@ const Home = () => {
       {showAlert && (
         <div className="alert-overlay">
           <div className="alert-box">
-            <p className="alert-message">README.mdがありません</p>
+            <p className="alert-message">{alertMessage}</p>
             <button className="alert-close-btn" onClick={handleCloseAlert}>閉じる</button>
           </div>
         </div>
