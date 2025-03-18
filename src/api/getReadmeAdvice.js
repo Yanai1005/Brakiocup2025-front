@@ -51,6 +51,7 @@ export const getReadmeAdvice = async (inputData) => {
     }
 
     return {
+        advice: responseData.advice,
         newReadme: responseData.new_readme
     };
 };

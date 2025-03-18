@@ -75,18 +75,47 @@
     background-color: rgba(255, 255, 255, 0.1);
   }
   
-  .toggle-view-btn {
+  .toggle-view-btn, .view-improved-btn {
     background-color: transparent;
     border: 1px solid #32cd32;
     color: #32cd32;
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-size: 0.9rem;
   }
   
-  .toggle-view-btn:hover {
+  .toggle-view-btn:hover, .view-improved-btn:hover {
     background-color: rgba(50, 205, 50, 0.1);
+  }
+  
+  .view-improved-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.2);
+  }
+  
+  .view-improved-btn {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+  
+  .view-improved-btn:hover {
+    background-color: #3a7bc8;
+  }
+  
+  .back-to-advice {
+    background-color: #32cd32;
+  }
+  
+  .back-to-advice:hover {
+    background-color: #28a828;
   }
   
   .modal-body {
