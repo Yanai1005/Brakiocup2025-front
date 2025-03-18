@@ -19,8 +19,7 @@ const About = () => {
 
   const score = location.state ? location.state.score : 0;
   const evaluation = location.state ? location.state.evaluation : null;
-  // repoInfoの取得方法を修正
-  const repoInfo = { owner: "KOU050223", repo: "Anireco" };
+  const repoInfo = location.state && location.state.repoInfo ? location.state.repoInfo : null;
   const textContent = location.state ? location.state.textContent : '';
 
   let grade = '';

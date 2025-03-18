@@ -50,7 +50,7 @@ p, pre {
   right: 20px;
   cursor: pointer;
   transition: background-color 0.3s;
-  z-index: 20; /* z-indexを上げる */
+  z-index: 20;
 }
 
 .navigate-btn:hover {
