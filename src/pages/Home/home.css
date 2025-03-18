@@ -1,40 +1,91 @@
 .home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #000;
+  color: #fff;
+  overflow: hidden;
+}
+
+.app-title {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+}
+
+.app-title h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #32cd32;
+  margin: 0;
 }
 
 .three-container {
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 50%;
+  width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
 }
 
-.app-name {
-  font-size: 4rem;
-  font-weight: bold;
-  color: #32cd32;
+.action-container {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  bottom: 40px;
+  right: 40px;
+  width: auto;
+  z-index: 20;
 }
 
-.navigate-btn {
+.action-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.repo-input {
+  width: 250px;
+  padding: 8px 12px;
+  background-color: transparent;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.repo-input:focus {
+  outline: none;
+  border-color: #32cd32;
+}
+
+.readme-btn {
   background-color: #32cd32;
   color: white;
   border: none;
-  padding: 15px 30px;
-  font-size: 1.2rem;
-  border-radius: 8px;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: 100%;
+  text-align: center;
 }
 
-.navigate-btn:hover {
+.readme-btn:hover {
   background-color: #28a828;
+}
+
+.readme-btn:disabled {
+  background-color: #1f631f;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #ff5555;
+  margin-top: 10px;
+  text-align: right;
+  font-size: 0.9rem;
 }

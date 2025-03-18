@@ -11,7 +11,7 @@ const Home = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
- 
+
   useEffect(() => {
     const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
     camera.position.z = 1;
@@ -85,6 +85,8 @@ const Home = () => {
     <div className="home-container">
       <h1 className="app-name">Reader me</h1>
 
+      <p>PublicのリポジトリのURLを入力してください。</p>
+      <p>READMEの内容を評価します。</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -96,14 +98,12 @@ const Home = () => {
         <button
           type="submit"
           disabled={isLoading}
+          className="navigate-btn"
         >
           {isLoading ? 'Loading...' : 'README評価'}
         </button>
       </form>
       {error && <p className="error-message">{error}</p>}
-      <Link to="/text">
-        <button className="navigate-btn">Go to Text</button>
-      </Link>
     </div >
   );
 };
