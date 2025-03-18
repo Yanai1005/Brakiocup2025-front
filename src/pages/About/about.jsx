@@ -2,8 +2,12 @@ import { useLocation, Link } from 'react-router-dom';
 import './about.css';
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from 'three';
+import { Radar } from 'react-chartjs-2';
 import { getReadmeAdvice } from '../../api/getReadmeAdvice';
 import ReadmeAdviceModal from '../../components/ReadmeAdviceModal';
+import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 const About = () => {
   const location = useLocation();
@@ -106,7 +110,7 @@ const About = () => {
     }
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+    renderer.setSize(window.innerWidth , window.innerHeight );
     renderer.setAnimationLoop(animation);
 
     if (threeContainerRef.current && !threeContainerRef.current.hasChildNodes()) {
@@ -163,10 +167,38 @@ const About = () => {
   const closeAdviceModal = () => {
     setIsAdviceModalOpen(false);
   };
-
+  const radarData = {
+    labels: ['明確さ', '完全性', '構造化', '例示', '可読性'],
+    datasets: [
+      {
+        label: '評価',
+        data: [
+          evaluation?.clarity ? Math.floor(evaluation.clarity) * 2 : 0,
+          evaluation?.completeness ? Math.floor(evaluation.completeness) * 2 : 0,
+          evaluation?.structure ? Math.floor(evaluation.structure) * 2 : 0,
+          evaluation?.examples ? Math.floor(evaluation.examples) * 2 : 0,
+          evaluation?.readability ? Math.floor(evaluation.readability) * 2 : 0,
+        ],
+        backgroundColor: 'rgba(34, 202, 236, 0.2)',
+        borderColor: 'rgba(34, 202, 236, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+  const radarOptions = {
+    scales: {
+      r: {
+        min: 0,
+        max: 20,
+        ticks: {
+          stepSize: 5,
+        },
+      },
+    },
+  };
   return (
-    <div>
-      <h1 className="app-name">Reader me</h1>
+
+    <div className="about-container">
 
       {repoInfo && (
         <div>
@@ -181,14 +213,7 @@ const About = () => {
       {evaluation && (
         <div className="evaluation-details">
           <h2>評価詳細</h2>
-          <ul>
-            {evaluation.clarity !== undefined && <li>明確さ: {Math.floor(evaluation.clarity) * 2}/20</li>}
-            {evaluation.completeness !== undefined && <li>完全性: {Math.floor(evaluation.completeness) * 2}/20</li>}
-            {evaluation.structure !== undefined && <li>構造化: {Math.floor(evaluation.structure) * 2}/20</li>}
-            {evaluation.examples !== undefined && <li>例示: {Math.floor(evaluation.examples) * 2}/20</li>}
-            {evaluation.readability !== undefined && <li>可読性: {Math.floor(evaluation.readability) * 2}/20</li>}
-          </ul>
-
+          <Radar data={radarData} options = {radarOptions}/>
           <div className="advice-button-container">
             <button
               className="advice-btn"
