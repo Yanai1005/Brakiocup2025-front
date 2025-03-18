@@ -13,22 +13,34 @@ const About = () => {
 
   let grade = '';
   let imagePath = '';
+  let imagePath2 = '';
+  let numObjects = '';
 
   if (score >= 90) {
     grade = 'A';
-    imagePath = '/images/A.png';
+    numObjects = '100';
+    imagePath = '/images/grass-texture.jpg';
+    imagePath2 = '/images/green-leaves.jpg';
   } else if (score >= 80) {
     grade = 'B';
-    imagePath = '/images/B.png';
+    numObjects = '80';
+    imagePath = '/images/grass-texture.jpg';
+    imagePath2 = '/images/green-leaves.jpg';
   } else if (score >= 70) {
     grade = 'C';
-    imagePath = '/images/C.png';
+    numObjects = '60';
+    imagePath = '/images/grass-texture.jpg';
+    imagePath2 = '/images/green-leaves.jpg';
   } else if (score >= 60) {
     grade = 'D';
-    imagePath = '/images/D.png';
+    numObjects = '40';
+    imagePath = '/images/grass-texture.jpg';
+    imagePath2 = '/images/green-leaves.jpg';
   } else {
     grade = 'E';
-    imagePath = '/images/E.png';
+    numObjects = '30';
+    imagePath = '/images/grass-texture.jpg';
+    imagePath2 = '/images/green-leaves.jpg';
   }
 
   useEffect(() => {
@@ -42,8 +54,43 @@ const About = () => {
     const texture = textureLoader.load(imagePath);
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+
+    // メモ:ここで物体の大きさや形をscoreに応じて変更したい
+    // メモ:同じ物体をいっぱい作って、それぞれの物体に違うスコアに応じた形や大きさを設定してもいいかもしれない
+    let attachedGeometry;
+    const texture2 = textureLoader.load(imagePath2);
+    let attachedMaterial = new THREE.MeshBasicMaterial({ map: texture2 });
+
+    if (score >= 90) {
+      attachedGeometry = new THREE.SphereGeometry(0.1, 32, 32);
+    } else if (score >= 80) {
+      attachedGeometry = new THREE.SphereGeometry(0.08, 32, 32);
+    } else if (score >= 70) {
+      attachedGeometry = new THREE.SphereGeometry(0.05, 32, 32);
+    } else if (score >= 60) {
+      attachedGeometry = new THREE.SphereGeometry(0.03, 32, 32);
+    } else {
+      attachedGeometry = new THREE.SphereGeometry(0.01, 32, 32);
+    }
+
+    
+    for (let i = 0; i < numObjects; i++) {
+    const attachedMesh = new THREE.Mesh(attachedGeometry, attachedMaterial);
+
+
+    const phi = Math.acos(2 * Math.random() - 1);
+    const theta = 2 * Math.PI * Math.random();
+    const radius = 0.5; 
+    attachedMesh.position.set(
+      radius * Math.sin(phi) * Math.cos(theta),
+      radius * Math.sin(phi) * Math.sin(theta),
+      radius * Math.cos(phi)
+    );
+
+    sphere.add(attachedMesh);
+  }
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
@@ -55,18 +102,18 @@ const About = () => {
 
     // animation
     function animation(time) {
-      mesh.rotation.x = time / 2000;
-      mesh.rotation.y = time / 1000;
+      sphere.rotation.x = time / 2000;
+      sphere.rotation.y = time / 1000;
       renderer.render(scene, camera);
     }
 
     return () => {
-      scene.remove(mesh);
+      scene.remove(sphere);
       renderer.domElement.remove();
-      mesh.material.dispose();
-      mesh.geometry.dispose();
-    }
-  }, [imagePath]);
+      sphere.material.dispose();
+      sphere.geometry.dispose();
+    };
+  }, [imagePath, score]);
 
   return (
     <div>
