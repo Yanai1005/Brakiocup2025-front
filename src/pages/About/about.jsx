@@ -175,6 +175,7 @@ const About = () => {
         },
       },
     },
+  }
   const handleGetAdvice = async () => {
     setIsLoading(true);
     setError('');
@@ -193,8 +194,7 @@ const About = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
+  }
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -212,7 +212,7 @@ const About = () => {
       {evaluation && (
         <div className="evaluation-details">
           <h2>評価詳細</h2>
-          <Radar data={radarData} options = {radarOptions}/>
+          <Radar data={radarData} options={radarOptions} />
           <div className="advice-button-container">
             <button
               className="advice-btn"
