@@ -13,33 +13,26 @@ const About = () => {
 
   let grade = '';
   let imagePath = '';
-  let imagePath2 = '';
-  let numObjects = '';
+  let imagePath2 = '/images/green-leaves.jpg';
+  let imagePath3 = '/images/dd_grass_01.jpg';
+  let numObjects = score * 2;
+  let numObjects2 = score * 30;
 
   if (score >= 90) {
     grade = 'A';
-    numObjects = '100';
-    imagePath = '/images/grass-texture.jpg';
-    imagePath2 = '/images/green-leaves.jpg';
+    imagePath = '/images/yukiSDIM11451799_TP_V.webp';
   } else if (score >= 80) {
     grade = 'B';
-    numObjects = '80';
-    imagePath = '/images/grass-texture.jpg';
-    imagePath2 = '/images/green-leaves.jpg';
+    imagePath = '/images/jimen02_01.jpg';
   } else if (score >= 70) {
     grade = 'C';
-    numObjects = '60';
-    imagePath = '/images/grass-texture.jpg';
-    imagePath2 = '/images/green-leaves.jpg';
+    imagePath = '/images/20170513022128.jpg';
   } else if (score >= 60) {
     grade = 'D';
-    numObjects = '40';
-    imagePath = '/images/grass-texture.jpg';
-    imagePath2 = '/images/green-leaves.jpg';
+    imagePath = '/images/土の枯.jpg';
   } else {
     grade = 'E';
-    numObjects = '30';
-    imagePath = '/images/grass-texture.jpg';
+    imagePath = '/images/top-view-soil_23-2148175893.jpg';
     imagePath2 = '/images/green-leaves.jpg';
   }
 
@@ -57,39 +50,52 @@ const About = () => {
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
 
-    // メモ:ここで物体の大きさや形をscoreに応じて変更したい
-    // メモ:同じ物体をいっぱい作って、それぞれの物体に違うスコアに応じた形や大きさを設定してもいいかもしれない
-    let attachedGeometry;
     const texture2 = textureLoader.load(imagePath2);
-    let attachedMaterial = new THREE.MeshBasicMaterial({ map: texture2 });
+    const texture3 = textureLoader.load(imagePath3);
+    const largeConeMaterial = new THREE.MeshBasicMaterial({ map: texture2 });
+    const smallConeMaterial = new THREE.MeshBasicMaterial({ map: texture3 });
 
-    if (score >= 90) {
-      attachedGeometry = new THREE.SphereGeometry(0.1, 32, 32);
-    } else if (score >= 80) {
-      attachedGeometry = new THREE.SphereGeometry(0.08, 32, 32);
-    } else if (score >= 70) {
-      attachedGeometry = new THREE.SphereGeometry(0.05, 32, 32);
-    } else if (score >= 60) {
-      attachedGeometry = new THREE.SphereGeometry(0.03, 32, 32);
-    } else {
-      attachedGeometry = new THREE.SphereGeometry(0.01, 32, 32);
-    }
-
+    const largeConeGeometry = new THREE.ConeGeometry(0.05, 0.1, 8);
+    const smallConeGeometry = new THREE.ConeGeometry(0.02, 0.05, 6);
 
     for (let i = 0; i < numObjects; i++) {
-      const attachedMesh = new THREE.Mesh(attachedGeometry, attachedMaterial);
-
+      const coneMesh = new THREE.Mesh(largeConeGeometry, largeConeMaterial);
 
       const phi = Math.acos(2 * Math.random() - 1);
       const theta = 2 * Math.PI * Math.random();
-      const radius = 0.5;
-      attachedMesh.position.set(
-        radius * Math.sin(phi) * Math.cos(theta),
-        radius * Math.sin(phi) * Math.sin(theta),
-        radius * Math.cos(phi)
-      );
 
-      sphere.add(attachedMesh);
+      const radius = 0.5;
+      const x = radius * Math.sin(phi) * Math.cos(theta);
+      const y = radius * Math.sin(phi) * Math.sin(theta);
+      const z = radius * Math.cos(phi);
+
+      coneMesh.position.set(x, y, z);
+
+      const normal = new THREE.Vector3(x, y, z).normalize();
+      coneMesh.lookAt(normal);
+      coneMesh.rotateX(Math.PI / 2);
+
+      sphere.add(coneMesh);
+    }
+
+    for (let i = 0; i < numObjects2; i++) {
+      const coneMesh = new THREE.Mesh(smallConeGeometry, smallConeMaterial);
+
+      const phi = Math.acos(2 * Math.random() - 1);
+      const theta = 2 * Math.PI * Math.random();
+
+      const radius = 0.5;
+      const x = radius * Math.sin(phi) * Math.cos(theta);
+      const y = radius * Math.sin(phi) * Math.sin(theta);
+      const z = radius * Math.cos(phi);
+
+      coneMesh.position.set(x, y, z);
+
+      const normal = new THREE.Vector3(x, y, z).normalize();
+      coneMesh.lookAt(normal);
+      coneMesh.rotateX(Math.PI / 2);
+
+      sphere.add(coneMesh);
     }
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -100,7 +106,6 @@ const About = () => {
       threeContainerRef.current.appendChild(renderer.domElement);
     }
 
-    // animation
     function animation(time) {
       sphere.rotation.x = time / 2000;
       sphere.rotation.y = time / 1000;
