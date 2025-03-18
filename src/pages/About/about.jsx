@@ -14,34 +14,24 @@ const About = () => {
   let grade = '';
   let imagePath = '';
   let imagePath2 = '/images/green-leaves.jpg';
-  let imagePath3 = '/images/grass-texture.jpg';
-  let numObjects = '';
-  let numObjects2 = '';
+  let imagePath3 = '/images/dd_grass_01.jpg';
+  let numObjects = score * 2;
+  let numObjects2 = score * 30;
 
   if (score >= 90) {
     grade = 'A';
-    numObjects = '100';
-    numObjects2 = '1000';
-    imagePath = '/images/20170513022128.jpg';
+    imagePath = '/images/yukiSDIM11451799_TP_V.webp';
   } else if (score >= 80) {
     grade = 'B';
-    numObjects = '80';
-    numObjects2 = '800';
-    imagePath = '/images/20170513022128.jpg';
+    imagePath = '/images/jimen02_01.jpg';
   } else if (score >= 70) {
     grade = 'C';
-    numObjects = '60';
-    numObjects2 = '600';
     imagePath = '/images/20170513022128.jpg';
   } else if (score >= 60) {
     grade = 'D';
-    numObjects = '40';
-    numObjects2 = '400';
     imagePath = '/images/土の枯.jpg';
   } else {
     grade = 'E';
-    numObjects = '0';
-    numObjects2 = '200';
     imagePath = '/images/top-view-soil_23-2148175893.jpg';
     imagePath2 = '/images/green-leaves.jpg';
   }
