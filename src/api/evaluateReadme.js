@@ -15,7 +15,8 @@ export const evaluateReadme = async (text) => {
     const response = await fetch('http://localhost:8080/evaluate', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json; charset=UTF-8'
         },
         body: JSON.stringify(requestData)
     });

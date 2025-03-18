@@ -1,0 +1,147 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .modal-content {
+    background-color: #242424;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.3s ease;
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  .modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #32cd32;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .modal-header h2 {
+    margin: 0;
+    color: #32cd32;
+    font-size: 1.5rem;
+  }
+  
+  .modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 0;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  
+  .close-btn:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .toggle-view-btn {
+    background-color: transparent;
+    border: 1px solid #32cd32;
+    color: #32cd32;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .toggle-view-btn:hover {
+    background-color: rgba(50, 205, 50, 0.1);
+  }
+  
+  .modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+    max-height: 60vh;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .advice-content, .readme-content {
+    max-height: 100%;
+  }
+  
+  .advice-content pre, .readme-content pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: inherit;
+    font-size: 1rem;
+    margin: 0;
+    line-height: 1.6;
+  }
+  
+  .modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .copy-btn {
+    background-color: transparent;
+    border: 1px solid #32cd32;
+    color: #32cd32;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .copy-btn:hover {
+    background-color: rgba(50, 205, 50, 0.1);
+  }
+  
+  .close-action-btn {
+    background-color: #32cd32;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .close-action-btn:hover {
+    background-color: #28a828;
+  }
