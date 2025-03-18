@@ -187,8 +187,8 @@ const About = () => {
           evaluation?.examples ? Math.floor(evaluation.examples) * 2 : 0,
           evaluation?.readability ? Math.floor(evaluation.readability) * 2 : 0,
         ],
-        backgroundColor: 'rgba(34, 202, 236, 0.2)',
-        borderColor: 'rgba(34, 202, 236, 1)',
+        backgroundColor: 'rgba(50, 205, 50, 0.2)',
+        borderColor: 'rgba(50, 205, 50, 1)',
         borderWidth: 1,
       },
     ],
@@ -200,9 +200,29 @@ const About = () => {
         max: 20,
         ticks: {
           stepSize: 5,
+          color: 'rgba(50, 205, 50, 0.8)',
         },
-      },
+        pointLabels: {
+          color: 'rgba(50, 205, 50, 1)',
+          font: {
+            weight: 'bold'
+          }
+        },
+        angleLines: {
+          color: 'rgba(50, 205, 50, 0.3)'
+        },
+        grid: {
+          color: 'rgba(50, 205, 50, 0.3)'
+        }
+      }
     },
+    plugins: {
+      legend: {
+        labels: {
+          color: 'rgba(50, 205, 50, 1)'
+        }
+      }
+    }
   };
   return (
     <div className="about-container">
