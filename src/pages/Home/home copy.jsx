@@ -16,7 +16,6 @@ const Home = () => {
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
   const cameraRef = useRef(null);
-  const initialVerticesRef = useRef(null);
 
 
   useEffect(() => {
@@ -28,7 +27,6 @@ const Home = () => {
     sceneRef.current = scene;
 
     const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-    initialVerticesRef.current = geometry.attributes.position.array.slice(); // 初期頂点を保存
     const textureLoader = new THREE.TextureLoader();
     const imagePath = '/images/geo-e.jpg';
     const texture = textureLoader.load(imagePath);
@@ -65,24 +63,24 @@ const Home = () => {
     if (mesh && scene && camera) {
       const vertices = mesh.geometry.attributes.position.array;
       const velocity = new Float32Array(vertices.length);
-
+  
       for (let i = 0; i < vertices.length; i += 3) {
         const x = vertices[i];
         const y = vertices[i + 1];
         const z = vertices[i + 2];
-
+  
         const length = Math.sqrt(x * x + y * y + z * z);
         const dirX = x / length;
         const dirY = y / length;
         const dirZ = z / length;
-
+  
         const speed = Math.random() * 0.02 + 0.01;
-
+  
         velocity[i] = dirX * speed;
         velocity[i + 1] = dirY * speed;
         velocity[i + 2] = dirZ * speed;
       }
-
+  
       const animateExplosion = () => {
         for (let i = 0; i < vertices.length; i += 3) {
           vertices[i] += velocity[i];
@@ -96,22 +94,11 @@ const Home = () => {
           requestAnimationFrame(animateExplosion);
         }
       };
-
+  
       animateExplosion();
     }
   };
-  const resetModel = () => {
-    const mesh = meshRef.current;
-    const initialVertices = initialVerticesRef.current;
-    if (mesh && initialVertices) {
-      const vertices = mesh.geometry.attributes.position.array;
-      for (let i = 0; i < vertices.length; i++) {
-        vertices[i] = initialVertices[i];
-      }
-      mesh.geometry.attributes.position.needsUpdate = true;
-      mesh.scale.set(1, 1, 1);
-    }
-  };
+  
   const handleRepoUrlChange = (e) => {
     setRepoUrl(e.target.value);
     setError('');
@@ -119,7 +106,6 @@ const Home = () => {
   };
   const handleCloseAlert = () => {
     setShowAlert(false);
-    resetModel();
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
