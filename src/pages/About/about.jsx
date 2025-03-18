@@ -119,7 +119,7 @@ const About = () => {
     scene.add(pointLight);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+    renderer.setSize(window.innerWidth , window.innerHeight );
     renderer.setAnimationLoop(animation);
 
     if (threeContainerRef.current && !threeContainerRef.current.hasChildNodes()) {
@@ -170,7 +170,6 @@ const About = () => {
   };
   return (
     <div className="about-container">
-      <h1 className="app-name">Reader me</h1>
       {repoInfo && (
         <div>
           <h2>リポジトリ 詳細</h2>
