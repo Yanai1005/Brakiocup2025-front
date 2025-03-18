@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import * as THREE from 'three';
 import { getReadmeAdvice } from '../../api/getReadmeAdvice';
 import ReadmeAdviceModal from '../../components/ReadmeAdviceModal';
-import ItemAdviceModal from '../../components/ItemAdviceModal';
 
 const About = () => {
   const location = useLocation();
@@ -12,9 +11,7 @@ const About = () => {
   const [advice, setAdvice] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [isImprovedReadmeModalOpen, setIsImprovedReadmeModalOpen] = useState(false);
-  const [isItemAdviceModalOpen, setIsItemAdviceModalOpen] = useState(false);
-  const [loadingType, setLoadingType] = useState('');
+  const [isAdviceModalOpen, setIsAdviceModalOpen] = useState(false);
 
   const score = location.state ? location.state.score : 0;
   const evaluation = location.state ? location.state.evaluation : null;
@@ -132,9 +129,8 @@ const About = () => {
     };
   }, [imagePath, score]);
 
-  const getAdvice = async (type) => {
+  const getAdvice = async () => {
     setIsLoading(true);
-    setLoadingType(type);
     setError('');
 
     try {
@@ -142,28 +138,32 @@ const About = () => {
         ? { repoInfo }
         : { content: textContent };
 
-      const adviceResponse = await getReadmeAdvice(data);
-      setAdvice(adviceResponse);
+      console.log("APIリクエスト送信:", data);
 
-      if (type === 'readme') {
-        setIsImprovedReadmeModalOpen(true);
-      } else {
-        setIsItemAdviceModalOpen(true);
+      const adviceResponse = await getReadmeAdvice(data);
+      console.log("APIレスポンス受信:", adviceResponse);
+
+      // アドバイスデータの存在確認
+      if (!adviceResponse.advice && !adviceResponse.newReadme) {
+        console.error("APIレスポンスにアドバイスデータがありません");
+        setError("アドバイスデータの取得に失敗しました");
+        return;
       }
+
+      setAdvice(adviceResponse);
+      setIsAdviceModalOpen(true);
     } catch (error) {
       console.error('アドバイス取得エラー:', error);
       setError(error.message || 'アドバイスの取得に失敗しました');
     } finally {
       setIsLoading(false);
-      setLoadingType('');
     }
   };
-  const closeImprovedReadmeModal = () => {
-    setIsImprovedReadmeModalOpen(false);
+
+  const closeAdviceModal = () => {
+    setIsAdviceModalOpen(false);
   };
-  const closeItemAdviceModal = () => {
-    setIsItemAdviceModalOpen(false);
-  };
+
   return (
     <div>
       <h1 className="app-name">Reader me</h1>
@@ -189,21 +189,13 @@ const About = () => {
             {evaluation.readability !== undefined && <li>可読性: {Math.floor(evaluation.readability) * 2}/20</li>}
           </ul>
 
-          <div className="advice-buttons-container">
+          <div className="advice-button-container">
             <button
               className="advice-btn"
-              onClick={() => getAdvice('advice')}
+              onClick={getAdvice}
               disabled={isLoading || !textContent}
             >
-              {isLoading && loadingType === 'advice' ? 'アドバイス取得中...' : '項目別アドバイスを取得'}
-            </button>
-
-            <button
-              className="advice-btn improved-readme-btn"
-              onClick={() => getAdvice('readme')}
-              disabled={isLoading || !textContent}
-            >
-              {isLoading && loadingType === 'readme' ? '改善例取得中...' : '改善されたREADMEを取得'}
+              {isLoading ? 'アドバイス取得中...' : 'READMEのアドバイスを取得'}
             </button>
           </div>
         </div>
@@ -211,16 +203,10 @@ const About = () => {
       {error && <p className="error-message">{error}</p>}
       {advice && (
         <ReadmeAdviceModal
-          isOpen={isImprovedReadmeModalOpen}
-          onClose={closeImprovedReadmeModal}
-          newReadme={advice.newReadme}
-        />
-      )}
-      {advice && (
-        <ItemAdviceModal
-          isOpen={isItemAdviceModalOpen}
-          onClose={closeItemAdviceModal}
+          isOpen={isAdviceModalOpen}
+          onClose={closeAdviceModal}
           advice={advice.advice}
+          newReadme={advice.newReadme}
         />
       )}
 
