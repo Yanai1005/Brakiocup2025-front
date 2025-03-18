@@ -22,7 +22,7 @@ const Home = () => {
 
     const geometry = new THREE.SphereGeometry(0.5, 32, 32);
     const textureLoader = new THREE.TextureLoader();
-    const imagePath = '/images/top-view-soil_23-2148175893.jpg';
+    const imagePath = '/images/geo-e.jpg';
     const texture = textureLoader.load(imagePath);
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
