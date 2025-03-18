@@ -1,15 +1,22 @@
 import { useLocation, Link } from 'react-router-dom';
 import './about.css';
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from 'three';
+import { getReadmeAdvice } from '../../api/getReadmeAdvice';
+import ReadmeAdviceModal from '../../components/ReadmeAdviceModal';
 
 const About = () => {
   const location = useLocation();
   const threeContainerRef = useRef(null);
+  const [advice, setAdvice] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const score = location.state ? location.state.score : 0;
   const evaluation = location.state ? location.state.evaluation : null;
   const repoInfo = location.state && location.state.repoInfo ? location.state.repoInfo : null;
+  const textContent = location.state ? location.state.textContent : '';
 
   let grade = '';
   let imagePath = '';
@@ -114,12 +121,37 @@ const About = () => {
 
     return () => {
       scene.remove(sphere);
-      renderer.domElement.remove();
+      if (renderer.domElement && renderer.domElement.parentNode) {
+        renderer.domElement.parentNode.removeChild(renderer.domElement);
+      }
       sphere.material.dispose();
       sphere.geometry.dispose();
     };
   }, [imagePath, score]);
 
+  const handleGetAdvice = async () => {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const data = repoInfo
+        ? { repoInfo }
+        : { content: textContent };
+
+      const adviceResponse = await getReadmeAdvice(data);
+      setAdvice(adviceResponse);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error('アドバイス取得エラー:', error);
+      setError(error.message || 'アドバイスの取得に失敗しました');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div>
       <h1 className="app-name">Reader me</h1>
@@ -141,7 +173,24 @@ const About = () => {
             {evaluation.examples !== undefined && <li>例示: {Math.floor(evaluation.examples) * 2}/20</li>}
             {evaluation.readability !== undefined && <li>可読性: {Math.floor(evaluation.readability) * 2}/20</li>}
           </ul>
+          <div className="advice-button-container">
+            <button
+              className="advice-btn"
+              onClick={handleGetAdvice}
+              disabled={isLoading || !textContent}
+            >
+              {isLoading ? '例取得中...' : 'READMEの改善例を取得'}
+            </button>
+          </div>
         </div>
+      )}
+      {error && <p className="error-message">{error}</p>}
+      {advice && (
+        <ReadmeAdviceModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          newReadme={advice.newReadme}
+        />
       )}
       <div className="three-container" ref={threeContainerRef}></div>
       <Link to="/">
