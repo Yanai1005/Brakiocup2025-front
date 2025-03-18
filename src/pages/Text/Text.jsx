@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './text.css';
 import { evaluateReadme } from '../../api/evaluateReadme';
 
@@ -18,10 +18,8 @@ const Text = () => {
     setScore(value);
   };
 
-  // 手動スコア入力三原くんのために追加
+  // 手動スコア入力
   const handleManualScore = () => {
-    const rawScore = Math.round((score / 100) * 50);
-
     const itemScore = Math.round((score / 100) * 10);
 
     navigate('/about', {
@@ -30,16 +28,17 @@ const Text = () => {
         textContent: text,
         score: score,
         evaluation: {
-          total_score: rawScore,
           clarity: itemScore,
           completeness: itemScore,
           structure: itemScore,
           examples: itemScore,
-          readability: itemScore
+          readability: itemScore,
+          total_score: itemScore * 5
         }
       }
     });
   };
+
   // Readmeの評価
   const handleEvaluate = async () => {
     setIsLoading(true);
@@ -101,6 +100,15 @@ const Text = () => {
         >
           Go to About
         </button>
+
+        {/* Geminiでの評価ボタン
+        <button
+          className="navigate-btn"
+          onClick={handleEvaluate}
+          disabled={isLoading}
+        >
+          {isLoading ? '評価中...' : 'READMEを評価する'}
+        </button> */}
       </div>
     </div>
   );
