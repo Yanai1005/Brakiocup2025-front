@@ -21,27 +21,27 @@ const About = () => {
   if (score >= 90) {
     grade = 'A';
     numObjects = '100';
-    numObjects2 = '500';
+    numObjects2 = '1000';
     imagePath = '/images/20170513022128.jpg';
   } else if (score >= 80) {
     grade = 'B';
     numObjects = '80';
-    numObjects2 = '400';
+    numObjects2 = '800';
     imagePath = '/images/20170513022128.jpg';
   } else if (score >= 70) {
     grade = 'C';
     numObjects = '60';
-    numObjects2 = '300';
+    numObjects2 = '600';
     imagePath = '/images/20170513022128.jpg';
   } else if (score >= 60) {
     grade = 'D';
     numObjects = '40';
-    numObjects2 = '200';
+    numObjects2 = '400';
     imagePath = '/images/土の枯.jpg';
   } else {
     grade = 'E';
     numObjects = '0';
-    numObjects2 = '100';
+    numObjects2 = '200';
     imagePath = '/images/top-view-soil_23-2148175893.jpg';
     imagePath2 = '/images/green-leaves.jpg';
   }
@@ -65,8 +65,8 @@ const About = () => {
     const largeConeMaterial = new THREE.MeshBasicMaterial({ map: texture2 });
     const smallConeMaterial = new THREE.MeshBasicMaterial({ map: texture3 });
 
-    const largeConeGeometry = new THREE.ConeGeometry(0.05, 0.2, 8);
-    const smallConeGeometry = new THREE.ConeGeometry(0.02, 0.08, 6);
+    const largeConeGeometry = new THREE.ConeGeometry(0.05, 0.1, 8);
+    const smallConeGeometry = new THREE.ConeGeometry(0.02, 0.05, 6);
 
     for (let i = 0; i < numObjects; i++) {
       const coneMesh = new THREE.Mesh(largeConeGeometry, largeConeMaterial);
