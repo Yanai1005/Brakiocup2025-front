@@ -2,90 +2,86 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: #000;
-  color: #fff;
-  overflow: hidden;
-}
-
-.app-title {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 10;
-}
-
-.app-title h1 {
-  font-size: 3.5rem;
-  font-weight: bold;
-  color: #32cd32;
-  margin: 0;
+  width: 100%;
 }
 
 .three-container {
   position: absolute;
-  width: 100%;
+  right: 0;
+  top: 0;
+  width: 50%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 0;
 }
 
-.action-container {
-  position: absolute;
-  bottom: 40px;
-  right: 40px;
-  width: auto;
-  z-index: 20;
-}
-
-.action-container form {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+.app-name {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #32cd32;
+  margin-bottom: 30px;
 }
 
 .repo-input {
-  width: 250px;
-  padding: 8px 12px;
-  background-color: transparent;
-  border: 1px solid #333;
-  border-radius: 4px;
-  color: #fff;
-  font-size: 0.9rem;
-  margin-bottom: 10px;
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s;
 }
 
 .repo-input:focus {
   outline: none;
   border-color: #32cd32;
 }
-
-.readme-btn {
-  background-color: #32cd32;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  font-size: 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 100%;
+.error-message {
+  color: #ff3333;
+  margin-top: 10px;
   text-align: center;
 }
 
-.readme-btn:hover {
+/* アラート関連のスタイル */
+.alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.alert-box {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+.alert-message {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.alert-close-btn {
+  background-color: #32cd32;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.alert-close-btn:hover {
   background-color: #28a828;
-}
-
-.readme-btn:disabled {
-  background-color: #1f631f;
-  cursor: not-allowed;
-}
-
-.error-message {
-  color: #ff5555;
-  margin-top: 10px;
-  text-align: right;
-  font-size: 0.9rem;
 }

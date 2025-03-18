@@ -9,6 +9,7 @@ const Home = () => {
   const [repoUrl, setRepoUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
 
 
@@ -45,37 +46,50 @@ const Home = () => {
       mesh.geometry.dispose();
     }
   }, []);
+
   const handleRepoUrlChange = (e) => {
     setRepoUrl(e.target.value);
     setError('');
+    setShowAlert(false);
   };
-
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setShowAlert(false);
 
     try {
       const { owner, repo } = parseRepoUrl(repoUrl);
 
-      const readmeContent = await fetchReadmeContent(owner, repo);
+      try {
+        const readmeContent = await fetchReadmeContent(owner, repo);
 
-      const result = await evaluateReadme(readmeContent);
+        const result = await evaluateReadme(readmeContent);
+        const evaluationData = result.evaluation;
+        const normalizedScore = result.score;
 
-      const evaluationData = result.evaluation;
-      const normalizedScore = result.score;
-
-      navigate('/about', {
-        state: {
-          repoInfo: { owner, repo },
-          textContent: readmeContent,
-          score: normalizedScore,
-          evaluation: evaluationData
+        navigate('/about', {
+          state: {
+            repoInfo: { owner, repo },
+            textContent: readmeContent,
+            score: normalizedScore,
+            evaluation: evaluationData
+          }
+        });
+      } catch (fetchError) {
+        console.error('Fetch Error:', fetchError);
+        if (fetchError.message.includes('404') || fetchError.status === 404) {
+          setShowAlert(true);
+        } else {
+          setError(fetchError.message || 'Failed to fetch README content');
         }
-      });
-    } catch (error) {
-      console.error('Error:', error);
-      setError(error.message || 'Failed to process repository');
+      }
+    } catch (parseError) {
+      console.error('Parse Error:', parseError);
+      setError(parseError.message || 'Invalid repository URL');
     } finally {
       setIsLoading(false);
     }
@@ -85,8 +99,9 @@ const Home = () => {
     <div className="home-container">
       <h1 className="app-name">Reader me</h1>
 
-      <p>PublicのリポジトリのURLを入力してください。</p>
-      <p>READMEの内容を評価します。</p>
+      <p>PublicのリポジトリのURLを入力してください</p>
+      <p>READMEの内容を評価します</p>
+      <p>※リポジトリにREADMEがない場合評価できません</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -104,7 +119,16 @@ const Home = () => {
         </button>
       </form>
       {error && <p className="error-message">{error}</p>}
-    </div >
+
+      {showAlert && (
+        <div className="alert-overlay">
+          <div className="alert-box">
+            <p className="alert-message">README.mdがありません</p>
+            <button className="alert-close-btn" onClick={handleCloseAlert}>閉じる</button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
