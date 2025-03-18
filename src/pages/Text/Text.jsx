@@ -1,18 +1,66 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './text.css';
+import { evaluateReadme } from '../../api/evaluateReadme';
 
 const Text = () => {
   const [text, setText] = useState('');
   const [score, setScore] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleTextChange = (event) => {
     setText(event.target.value);
   };
 
   const handleScoreChange = (event) => {
-    const value = Math.max(0, Math.min(100, event.target.value));
+    const value = Math.max(0, Math.min(100, parseInt(event.target.value) || 0));
     setScore(value);
+  };
+
+  // 手動スコア入力三原くんのために追加
+  const handleManualScore = () => {
+    const rawScore = Math.round((score / 100) * 50);
+
+    const itemScore = Math.round((score / 100) * 10);
+
+    navigate('/about', {
+      state: {
+        textLength: text.length,
+        textContent: text,
+        score: score,
+        evaluation: {
+          total_score: rawScore,
+          clarity: itemScore,
+          completeness: itemScore,
+          structure: itemScore,
+          examples: itemScore,
+          readability: itemScore
+        }
+      }
+    });
+  };
+  // Readmeの評価
+  const handleEvaluate = async () => {
+    setIsLoading(true);
+
+    try {
+      const result = await evaluateReadme(text);
+
+      navigate('/about', {
+        state: {
+          textLength: text.length,
+          textContent: text,
+          score: result.score,
+          evaluation: result.evaluation
+        }
+      });
+    } catch (error) {
+      console.error('評価エラー:', error);
+      alert('評価に失敗しました: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -24,10 +72,9 @@ const Text = () => {
           className="text-area"
           value={text}
           onChange={handleTextChange}
-          placeholder="ここに文章を書いてください..."
+          placeholder="ここにREADME文章を書いてください..."
         ></textarea>
       </div>
-
 
       <div className="score-container">
         <label htmlFor="score">点数 (0〜100): </label>
@@ -39,11 +86,22 @@ const Text = () => {
           min="0"
           max="100"
         />
+        <button
+          className="score-btn"
+          onClick={handleManualScore}
+        >
+          スコアを適用
+        </button>
       </div>
 
-      <Link to="/about" state={{ textLength: text.length, textContent: text, score: score }}>
-        <button className="navigate-btn">Go to About</button>
-      </Link>
+      <div className="button-container">
+        <button
+          className="navigate-btn"
+          onClick={handleManualScore}
+        >
+          Go to About
+        </button>
+      </div>
     </div>
   );
 };

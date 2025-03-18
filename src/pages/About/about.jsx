@@ -1,18 +1,18 @@
 import { useLocation, Link } from 'react-router-dom';
 import './about.css';
-import React, { useEffect, useRef } from "react"
-import * as THREE from 'three'
+import React, { useEffect, useRef } from "react";
+import * as THREE from 'three';
 
 const About = () => {
   const location = useLocation();
   const threeContainerRef = useRef(null);
 
-  const textLength = location.state ? location.state.textLength : 0;
-  const textContent = location.state ? location.state.textContent : '';
   const score = location.state ? location.state.score : 0;
+  const evaluation = location.state ? location.state.evaluation : null;
+  const repoInfo = location.state && location.state.repoInfo ? location.state.repoInfo : null;
 
   let grade = '';
-  let imagePath = ''; 
+  let imagePath = '';
 
   if (score >= 90) {
     grade = 'A';
@@ -32,7 +32,7 @@ const About = () => {
   }
 
   useEffect(() => {
-    const camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
+    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
     camera.position.z = 1;
 
     const scene = new THREE.Scene();
@@ -42,22 +42,22 @@ const About = () => {
     const texture = textureLoader.load(imagePath);
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
-    const mesh = new THREE.Mesh( geometry, material );
-    scene.add( mesh );
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
-    const renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setSize( window.innerWidth / 2, window.innerHeight / 2 );
-    renderer.setAnimationLoop( animation );
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+    renderer.setAnimationLoop(animation);
 
     if (threeContainerRef.current && !threeContainerRef.current.hasChildNodes()) {
-      threeContainerRef.current.appendChild( renderer.domElement );
+      threeContainerRef.current.appendChild(renderer.domElement);
     }
 
     // animation
     function animation(time) {
       mesh.rotation.x = time / 2000;
       mesh.rotation.y = time / 1000;
-      renderer.render( scene, camera );
+      renderer.render(scene, camera);
     }
 
     return () => {
@@ -66,25 +66,30 @@ const About = () => {
       mesh.material.dispose();
       mesh.geometry.dispose();
     }
-  }, [imagePath])
+  }, [imagePath]);
 
   return (
-    <div className="about-container">
+    <div>
       <h1 className="app-name">Reader me</h1>
-
-      <p>Textページで入力された文字数: {textLength}文字</p>
-      <p>入力された文章:</p>
-      <pre>{textContent}</pre>
-
-      <p>あなたの評価: {grade}</p>
-    
+      {repoInfo && (
+        <div>
+          <h2>リポジトリ 詳細</h2>
+          <p>Owner: <a href={`https://github.com/${repoInfo.owner}`} target="_blank" rel="noopener noreferrer">{repoInfo.owner}</a></p>
+          <p>Repository: <a href={`https://github.com/${repoInfo.owner}/${repoInfo.repo}`} target="_blank" rel="noopener noreferrer">{repoInfo.repo}</a></p>
+        </div>
+      )}
+      {evaluation && (
+        <div className="evaluation-details">
+          <h2>評価詳細</h2>
+          <ul>
+            <p>あなたの評価: {grade} (スコア: {score}点)</p>
+          </ul>
+        </div>
+      )}
       <div className="three-container" ref={threeContainerRef}></div>
-
       <Link to="/">
         <button className="navigate-btn">Go to Home</button>
       </Link>
-
-      
     </div>
   );
 };
