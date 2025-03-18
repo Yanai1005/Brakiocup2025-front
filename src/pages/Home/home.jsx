@@ -28,7 +28,7 @@ const Home = () => {
     sceneRef.current = scene;
 
     const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-    initialVerticesRef.current = geometry.attributes.position.array.slice(); // 初期頂点を保存
+    initialVerticesRef.current = geometry.attributes.position.array.slice();
     const textureLoader = new THREE.TextureLoader();
     const imagePath = '/images/geo-e.jpg';
     const texture = textureLoader.load(imagePath);
@@ -39,9 +39,9 @@ const Home = () => {
     meshRef.current = mesh;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+    renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setAnimationLoop(animation);
-    document.body.appendChild(renderer.domElement);
+    document.querySelector('.three-container').appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
     // animation
@@ -205,6 +205,7 @@ const Home = () => {
           </div>
         </div>
       )}
+      <div className="three-container"></div>
     </div>
   );
 };
