@@ -2,8 +2,12 @@ import { useLocation, Link } from 'react-router-dom';
 import './about.css';
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from 'three';
+import { Radar } from 'react-chartjs-2';
 import { getReadmeAdvice } from '../../api/getReadmeAdvice';
 import ReadmeAdviceModal from '../../components/ReadmeAdviceModal';
+import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 const About = () => {
   const location = useLocation();
@@ -22,25 +26,34 @@ const About = () => {
   let imagePath = '';
   let imagePath2 = '/images/green-leaves.jpg';
   let imagePath3 = '/images/dd_grass_01.jpg';
-  let numObjects = score * 2;
-  let numObjects2 = score * 30;
+  let numObjects = '';
+  let numObjects2 = '';
 
-  if (score >= 90) {
+  if (score >= 80) {
     grade = 'A';
     imagePath = '/images/yukiSDIM11451799_TP_V.webp';
-  } else if (score >= 80) {
-    grade = 'B';
-    imagePath = '/images/jimen02_01.jpg';
+    numObjects = score * 4;
+    numObjects2 = score * 30;
   } else if (score >= 70) {
-    grade = 'C';
+    grade = 'B';
     imagePath = '/images/20170513022128.jpg';
+    numObjects = score * 3;
+    numObjects2 = score * 20;
   } else if (score >= 60) {
+    grade = 'C';
+    imagePath = '/images/jimen02_01.jpg';
+    numObjects = score * 2;
+    numObjects2 = score * 10;
+  } else if (score >= 40) {
     grade = 'D';
-    imagePath = '/images/土の枯.jpg';
+    imagePath = '/images/top-view-soil_23-2148175893.jpg';
+    numObjects = score * 1;
+    numObjects2 = score * 10;
   } else {
     grade = 'E';
-    imagePath = '/images/top-view-soil_23-2148175893.jpg';
-    imagePath2 = '/images/green-leaves.jpg';
+    imagePath = '/images/closeup.jpg';
+    numObjects = score * 0;
+    numObjects2 = score * 5;
   }
 
   useEffect(() => {
@@ -106,7 +119,7 @@ const About = () => {
     }
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+    renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setAnimationLoop(animation);
 
     if (threeContainerRef.current && !threeContainerRef.current.hasChildNodes()) {
@@ -114,8 +127,7 @@ const About = () => {
     }
 
     function animation(time) {
-      sphere.rotation.x = time / 2000;
-      sphere.rotation.y = time / 1000;
+      sphere.rotation.y = time / 20000;
       renderer.render(scene, camera);
     }
 
@@ -163,32 +175,73 @@ const About = () => {
   const closeAdviceModal = () => {
     setIsAdviceModalOpen(false);
   };
-
+  const radarData = {
+    labels: ['明確さ', '完全性', '構造化', '例示', '可読性'],
+    datasets: [
+      {
+        label: '評価',
+        data: [
+          evaluation?.clarity ? Math.floor(evaluation.clarity) * 2 : 0,
+          evaluation?.completeness ? Math.floor(evaluation.completeness) * 2 : 0,
+          evaluation?.structure ? Math.floor(evaluation.structure) * 2 : 0,
+          evaluation?.examples ? Math.floor(evaluation.examples) * 2 : 0,
+          evaluation?.readability ? Math.floor(evaluation.readability) * 2 : 0,
+        ],
+        backgroundColor: 'rgba(50, 205, 50, 0.2)',
+        borderColor: 'rgba(50, 205, 50, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+  const radarOptions = {
+    scales: {
+      r: {
+        min: 0,
+        max: 20,
+        ticks: {
+          stepSize: 5,
+          color: 'rgba(50, 205, 50, 0.8)',
+        },
+        pointLabels: {
+          color: 'rgba(50, 205, 50, 1)',
+          font: {
+            weight: 'bold'
+          }
+        },
+        angleLines: {
+          color: 'rgba(50, 205, 50, 0.3)'
+        },
+        grid: {
+          color: 'rgba(50, 205, 50, 0.3)'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: 'rgba(50, 205, 50, 1)'
+        }
+      }
+    }
+  };
   return (
-    <div>
-      <h1 className="app-name">Reader me</h1>
-
-      {repoInfo && (
-        <div>
-          <h2>リポジトリ 詳細</h2>
-          <p>Owner: <a href={`https://github.com/${repoInfo.owner}`} target="_blank" rel="noopener noreferrer">{repoInfo.owner}</a></p>
-          <p>Repository: <a href={`https://github.com/${repoInfo.owner}/${repoInfo.repo}`} target="_blank" rel="noopener noreferrer">{repoInfo.repo}</a></p>
-        </div>
-      )}
-
-      <p>あなたの評価: {grade} (スコア: {score}点)</p>
+    <div className="about-container">
+      <div className="three-container" ref={threeContainerRef}></div>
+      <div style={{ position: 'relative', zIndex: 10 }}>
+        {repoInfo && (
+          <div>
+            <h2>リポジトリ 詳細</h2>
+            <p>Owner: <a href={`https://github.com/${repoInfo.owner}`} target="_blank" rel="noopener noreferrer">{repoInfo.owner}</a></p>
+            <p>Repository: <a href={`https://github.com/${repoInfo.owner}/${repoInfo.repo}`} target="_blank" rel="noopener noreferrer">{repoInfo.repo}</a></p>
+          </div>
+        )}
+      </div>
+      <p style={{ position: 'relative', zIndex: 10 }}>あなたの評価: {grade} (スコア: {score}点)</p>
 
       {evaluation && (
-        <div className="evaluation-details">
+        <div className="evaluation-details" style={{ position: 'relative', zIndex: 10 }}>
           <h2>評価詳細</h2>
-          <ul>
-            {evaluation.clarity !== undefined && <li>明確さ: {Math.floor(evaluation.clarity) * 2}/20</li>}
-            {evaluation.completeness !== undefined && <li>完全性: {Math.floor(evaluation.completeness) * 2}/20</li>}
-            {evaluation.structure !== undefined && <li>構造化: {Math.floor(evaluation.structure) * 2}/20</li>}
-            {evaluation.examples !== undefined && <li>例示: {Math.floor(evaluation.examples) * 2}/20</li>}
-            {evaluation.readability !== undefined && <li>可読性: {Math.floor(evaluation.readability) * 2}/20</li>}
-          </ul>
-
+          <Radar data={radarData} options={radarOptions} />
           <div className="advice-button-container">
             <button
               className="advice-btn"
@@ -200,7 +253,7 @@ const About = () => {
           </div>
         </div>
       )}
-      {error && <p className="error-message">{error}</p>}
+      {error && <p className="error-message" style={{ position: 'relative', zIndex: 10 }}>{error}</p>}
       {advice && (
         <ReadmeAdviceModal
           isOpen={isAdviceModalOpen}
@@ -209,8 +262,6 @@ const About = () => {
           newReadme={advice.newReadme}
         />
       )}
-
-      <div className="three-container" ref={threeContainerRef}></div>
 
       <Link to="/">
         <button className="navigate-btn">Go to Home</button>
