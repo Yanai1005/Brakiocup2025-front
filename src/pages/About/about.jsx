@@ -25,21 +25,21 @@ const About = () => {
     grade = 'B';
     numObjects = '80';
     imagePath = '/images/grass-texture.jpg';
-    imagePath2 = '/images/green-leaves.jpg';
+    imagePath2 = '/images/grass-texture.jpg';
   } else if (score >= 70) {
     grade = 'C';
     numObjects = '60';
-    imagePath = '/images/grass-texture.jpg';
-    imagePath2 = '/images/green-leaves.jpg';
+    imagePath = '/images/20170513022128.jpg';
+    imagePath2 = '/images/grass-texture.jpg';
   } else if (score >= 60) {
     grade = 'D';
     numObjects = '40';
-    imagePath = '/images/grass-texture.jpg';
-    imagePath2 = '/images/green-leaves.jpg';
+    imagePath = '/images/土の枯.jpg';
+    imagePath2 = '/images/grass-texture.jpg';
   } else {
     grade = 'E';
-    numObjects = '30';
-    imagePath = '/images/grass-texture.jpg';
+    numObjects = '0';
+    imagePath = '/images/top-view-soil_23-2148175893.jpg';
     imagePath2 = '/images/green-leaves.jpg';
   }
 
