@@ -13,28 +13,34 @@ const About = () => {
 
   let grade = '';
   let imagePath = '';
+  let imagePath2 = '';
   let numObjects = '';
 
   if (score >= 90) {
     grade = 'A';
     numObjects = '30';
     imagePath = '/images/A.png';
+    imagePath2 = '/images/grass-texture.jpg';
   } else if (score >= 80) {
     grade = 'B';
     numObjects = '25';
     imagePath = '/images/B.png';
+    imagePath2 = '/images/grass-texture.jpg';
   } else if (score >= 70) {
     grade = 'C';
     numObjects = '20';
     imagePath = '/images/C.png';
+    imagePath2 = '/images/grass-texture.jpg';
   } else if (score >= 60) {
     grade = 'D';
     numObjects = '15';
     imagePath = '/images/D.png';
+    imagePath2 = '/images/grass-texture.jpg';
   } else {
     grade = 'E';
     numObjects = '10';
     imagePath = '/images/E.png';
+    imagePath2 = '/images/grass-texture.jpg';
   }
 
   useEffect(() => {
@@ -54,7 +60,8 @@ const About = () => {
     // メモ:ここで物体の大きさや形をscoreに応じて変更したい
     // メモ:同じ物体をいっぱい作って、それぞれの物体に違うスコアに応じた形や大きさを設定してもいいかもしれない
     let attachedGeometry;
-    let attachedMaterial = new THREE.MeshBasicMaterial({ map: texture });
+    const texture2 = textureLoader.load(imagePath2);
+    let attachedMaterial = new THREE.MeshBasicMaterial({ map: texture2 });
 
     if (score >= 90) {
       attachedGeometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
