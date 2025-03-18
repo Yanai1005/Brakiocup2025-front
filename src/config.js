@@ -3,7 +3,8 @@ export const API_CONFIG = {
 
     ENDPOINTS: {
         EVALUATE: '/evaluate',
-        README_ADVICE: '/github/advice'
+        README_ADVICE: '/github/advice',
+        USER_ANALYSIS: '/github/analysis'
     }
 };
 
