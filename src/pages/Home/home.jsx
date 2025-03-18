@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './home.css';
 import React, { useEffect, useState } from "react";
 import * as THREE from 'three';
@@ -111,6 +111,11 @@ const Home = () => {
       <p>PublicのリポジトリのURLを入力してください</p>
       <p>READMEの内容を評価します</p>
       <p>※リポジトリにREADMEがない場合評価できません</p>
+      <p>
+        <Link to="/analysis">
+          <button className="profile-analysis-btn">ユーザーのREADME傾向分析</button>
+        </Link>
+      </p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
