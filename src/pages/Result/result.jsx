@@ -24,34 +24,34 @@ const Result = () => {
 
     let grade = '';
     let imagePath = '';
-    let imagePath2 = '/images/green-leaves.jpg';
-    let imagePath3 = '/images/dd_grass_01.jpg';
+    let imagePath2 = '/images/leaves.jpg';
+    let imagePath3 = '/images/grass.jpg';
     let numObjects = '';
     let numObjects2 = '';
 
     if (score >= 80) {
         grade = 'A';
-        imagePath = '/images/yukiSDIM11451799_TP_V.webp';
+        imagePath = '/images/geo-a.jpg';
         numObjects = score * 4;
         numObjects2 = score * 30;
     } else if (score >= 70) {
         grade = 'B';
-        imagePath = '/images/20170513022128.jpg';
+        imagePath = '/images/geo-b.jpg';
         numObjects = score * 3;
         numObjects2 = score * 20;
     } else if (score >= 60) {
         grade = 'C';
-        imagePath = '/images/jimen02_01.jpg';
+        imagePath = '/images/geo-c.jpg';
         numObjects = score * 2;
         numObjects2 = score * 10;
     } else if (score >= 40) {
         grade = 'D';
-        imagePath = '/images/top-view-soil_23-2148175893.jpg';
+        imagePath = '/images/geo-d.jpg';
         numObjects = score * 1;
         numObjects2 = score * 10;
     } else {
         grade = 'E';
-        imagePath = '/images/closeup.jpg';
+        imagePath = '/images/geo-e.jpg';
         numObjects = score * 0;
         numObjects2 = score * 5;
     }
