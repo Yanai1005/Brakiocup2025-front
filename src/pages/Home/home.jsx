@@ -36,7 +36,7 @@ const Home = () => {
 
     // animation
     function animation(time) {
-      mesh.rotation.y = time / 10000;
+      mesh.rotation.y = time / 20000;
       renderer.render(scene, camera);
     }
 
