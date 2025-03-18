@@ -71,7 +71,7 @@ const Home = () => {
         const evaluationData = result.evaluation;
         const normalizedScore = result.score;
 
-        navigate('/about', {
+        navigate('/result', {
           state: {
             repoInfo: { owner, repo },
             textContent: readmeContent,
