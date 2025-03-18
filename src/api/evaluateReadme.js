@@ -1,3 +1,5 @@
+import { getApiUrl, API_CONFIG } from '../config';
+
 export const evaluateReadme = async (text) => {
     if (!text.trim()) {
         throw new Error('テキストを入力してください');
@@ -9,10 +11,11 @@ export const evaluateReadme = async (text) => {
         content: text
     };
 
-    console.log('リクエストURL:', 'http://localhost:8080/evaluate');
+    const apiUrl = getApiUrl(API_CONFIG.ENDPOINTS.EVALUATE);
+    console.log('リクエストURL:', apiUrl);
     console.log('リクエスト本文:', JSON.stringify(requestData));
 
-    const response = await fetch('http://localhost:8080/evaluate', {
+    const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
