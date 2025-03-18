@@ -18,8 +18,11 @@ const Home = () => {
 
     const scene = new THREE.Scene();
 
-    const geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    const material = new THREE.MeshNormalMaterial();
+    const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const textureLoader = new THREE.TextureLoader();
+    const imagePath = '/images/top-view-soil_23-2148175893.jpg';
+    const texture = textureLoader.load(imagePath);
+    const material = new THREE.MeshBasicMaterial({ map: texture });
 
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
@@ -31,8 +34,7 @@ const Home = () => {
 
     // animation
     function animation(time) {
-      mesh.rotation.x = time / 2000;
-      mesh.rotation.y = time / 1000;
+      mesh.rotation.y = time / 10000;
       renderer.render(scene, camera);
     }
 
@@ -99,7 +101,6 @@ const Home = () => {
         </button>
       </form>
       {error && <p className="error-message">{error}</p>}
-      {/* Original button */}
       <Link to="/text">
         <button className="navigate-btn">Go to Text</button>
       </Link>
