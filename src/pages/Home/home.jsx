@@ -11,7 +11,7 @@ const Home = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  //useEffectの3dmodelを右画面だけにしたい
+ 
   useEffect(() => {
     const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
     camera.position.z = 1;
