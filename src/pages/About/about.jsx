@@ -13,21 +13,27 @@ const About = () => {
 
   let grade = '';
   let imagePath = '';
+  let numObjects = '';
 
   if (score >= 90) {
     grade = 'A';
+    numObjects = '30';
     imagePath = '/images/A.png';
   } else if (score >= 80) {
     grade = 'B';
+    numObjects = '25';
     imagePath = '/images/B.png';
   } else if (score >= 70) {
     grade = 'C';
+    numObjects = '20';
     imagePath = '/images/C.png';
   } else if (score >= 60) {
     grade = 'D';
+    numObjects = '15';
     imagePath = '/images/D.png';
   } else {
     grade = 'E';
+    numObjects = '10';
     imagePath = '/images/E.png';
   }
 
@@ -62,7 +68,7 @@ const About = () => {
       attachedGeometry = new THREE.SphereGeometry(0.1, 32, 32);
     }
 
-    const numObjects = 20;//緯度経度をランダムにしたい 
+    
     for (let i = 0; i < numObjects; i++) {
     const attachedMesh = new THREE.Mesh(attachedGeometry, attachedMaterial);
 
