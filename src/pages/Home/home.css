@@ -4,7 +4,9 @@
   height: 100vh;
   width: 100%;
 }
-
+.home-container p {
+  color: #32cd32;
+}
 .three-container {
   position: absolute;
   right: 0;

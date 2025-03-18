@@ -97,7 +97,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h1 className="app-name">Reader me</h1>
+      <h1 className="app-name">Greend me</h1>
 
       <p>PublicのリポジトリのURLを入力してください</p>
       <p>READMEの内容を評価します</p>
