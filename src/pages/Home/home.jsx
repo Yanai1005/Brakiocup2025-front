@@ -9,9 +9,10 @@ const Home = () => {
   const [repoUrl, setRepoUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
 
- 
+
   useEffect(() => {
     const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
     camera.position.z = 1;
@@ -45,37 +46,50 @@ const Home = () => {
       mesh.geometry.dispose();
     }
   }, []);
+
   const handleRepoUrlChange = (e) => {
     setRepoUrl(e.target.value);
     setError('');
+    setShowAlert(false);
   };
-
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setShowAlert(false);
 
     try {
       const { owner, repo } = parseRepoUrl(repoUrl);
 
-      const readmeContent = await fetchReadmeContent(owner, repo);
+      try {
+        const readmeContent = await fetchReadmeContent(owner, repo);
 
-      const result = await evaluateReadme(readmeContent);
+        const result = await evaluateReadme(readmeContent);
+        const evaluationData = result.evaluation;
+        const normalizedScore = result.score;
 
-      const evaluationData = result.evaluation;
-      const normalizedScore = result.score;
-
-      navigate('/about', {
-        state: {
-          repoInfo: { owner, repo },
-          textContent: readmeContent,
-          score: normalizedScore,
-          evaluation: evaluationData
+        navigate('/about', {
+          state: {
+            repoInfo: { owner, repo },
+            textContent: readmeContent,
+            score: normalizedScore,
+            evaluation: evaluationData
+          }
+        });
+      } catch (fetchError) {
+        console.error('Fetch Error:', fetchError);
+        if (fetchError.message.includes('404') || fetchError.status === 404) {
+          setShowAlert(true);
+        } else {
+          setError(fetchError.message || 'Failed to fetch README content');
         }
-      });
-    } catch (error) {
-      console.error('Error:', error);
-      setError(error.message || 'Failed to process repository');
+      }
+    } catch (parseError) {
+      console.error('Parse Error:', parseError);
+      setError(parseError.message || 'Invalid repository URL');
     } finally {
       setIsLoading(false);
     }
@@ -83,8 +97,11 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h1 className="app-name">Reader me</h1>
+      <h1 className="app-name">Greend me</h1>
 
+      <p>PublicのリポジトリのURLを入力してください</p>
+      <p>READMEの内容を評価します</p>
+      <p>※リポジトリにREADMEがない場合評価できません</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -96,15 +113,22 @@ const Home = () => {
         <button
           type="submit"
           disabled={isLoading}
+          className="navigate-btn"
         >
           {isLoading ? 'Loading...' : 'README評価'}
         </button>
       </form>
       {error && <p className="error-message">{error}</p>}
-      <Link to="/text">
-        <button className="navigate-btn">Go to Text</button>
-      </Link>
-    </div >
+
+      {showAlert && (
+        <div className="alert-overlay">
+          <div className="alert-box">
+            <p className="alert-message">README.mdがありません</p>
+            <button className="alert-close-btn" onClick={handleCloseAlert}>閉じる</button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

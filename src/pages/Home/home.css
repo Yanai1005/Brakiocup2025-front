@@ -1,9 +1,12 @@
 .home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  width: 100%;
 }
-
+.home-container p {
+  color: #32cd32;
+}
 .three-container {
   position: absolute;
   right: 0;
@@ -13,28 +16,74 @@
 }
 
 .app-name {
-  font-size: 4rem;
+  font-size: 3.5rem;
   font-weight: bold;
   color: #32cd32;
-  position: absolute;
-  top: 20px;
-  left: 20px;
+  margin-bottom: 30px;
 }
 
-.navigate-btn {
+.repo-input {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s;
+}
+
+.repo-input:focus {
+  outline: none;
+  border-color: #32cd32;
+}
+.error-message {
+  color: #ff3333;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* アラート関連のスタイル */
+.alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.alert-box {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+.alert-message {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.alert-close-btn {
   background-color: #32cd32;
   color: white;
   border: none;
-  padding: 15px 30px;
-  font-size: 1.2rem;
-  border-radius: 8px;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+  padding: 10px 25px;
+  font-size: 1rem;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.navigate-btn:hover {
+.alert-close-btn:hover {
   background-color: #28a828;
 }
