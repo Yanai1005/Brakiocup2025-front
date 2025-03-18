@@ -200,7 +200,6 @@ const About = () => {
   };
   return (
     <div className="about-container">
-      <h1 className="app-name">Reader me</h1>
       {repoInfo && (
         <div>
           <h2>リポジトリ 詳細</h2>
