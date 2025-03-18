@@ -15,25 +15,34 @@ const About = () => {
   let imagePath = '';
   let imagePath2 = '/images/green-leaves.jpg';
   let imagePath3 = '/images/dd_grass_01.jpg';
-  let numObjects = score * 2;
-  let numObjects2 = score * 30;
+  let numObjects = '';
+  let numObjects2 = '';
 
   if (score >= 90) {
     grade = 'A';
     imagePath = '/images/yukiSDIM11451799_TP_V.webp';
+    numObjects = score * 4;
+    numObjects2 = score * 30;
   } else if (score >= 80) {
     grade = 'B';
     imagePath = '/images/jimen02_01.jpg';
-  } else if (score >= 70) {
+    numObjects = score * 3;
+    numObjects2 = score * 20;
+  } else if (score >= 60) {
     grade = 'C';
     imagePath = '/images/20170513022128.jpg';
-  } else if (score >= 60) {
+    numObjects = score * 2;
+    numObjects2 = score * 15;
+  } else if (score >= 40) {
     grade = 'D';
     imagePath = '/images/土の枯.jpg';
+    numObjects = score * 1;
+    numObjects2 = score * 10;
   } else {
     grade = 'E';
     imagePath = '/images/top-view-soil_23-2148175893.jpg';
-    imagePath2 = '/images/green-leaves.jpg';
+    numObjects = score * 0;
+    numObjects2 = score * 5;
   }
 
   useEffect(() => {
@@ -107,8 +116,7 @@ const About = () => {
     }
 
     function animation(time) {
-      sphere.rotation.x = time / 2000;
-      sphere.rotation.y = time / 1000;
+      sphere.rotation.y = time / 10000;
       renderer.render(scene, camera);
     }
 
