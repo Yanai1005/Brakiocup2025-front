@@ -25,22 +25,22 @@ const About = () => {
     numObjects2 = score * 30;
   } else if (score >= 80) {
     grade = 'B';
-    imagePath = '/images/jimen02_01.jpg';
+    imagePath = '/images/20170513022128.jpg';
     numObjects = score * 3;
     numObjects2 = score * 20;
   } else if (score >= 60) {
     grade = 'C';
-    imagePath = '/images/20170513022128.jpg';
+    imagePath = '/images/jimen02_01.jpg';
     numObjects = score * 2;
     numObjects2 = score * 15;
   } else if (score >= 40) {
     grade = 'D';
-    imagePath = '/images/土の枯.jpg';
+    imagePath = '/images/top-view-soil_23-2148175893.jpg';
     numObjects = score * 1;
     numObjects2 = score * 10;
   } else {
     grade = 'E';
-    imagePath = '/images/top-view-soil_23-2148175893.jpg';
+    imagePath = '/images/closeup.jpg';
     numObjects = score * 0;
     numObjects2 = score * 5;
   }
@@ -106,6 +106,13 @@ const About = () => {
 
       sphere.add(coneMesh);
     }
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+    scene.add(ambientLight);
+
+    const pointLight = new THREE.PointLight(0xffffff, 0.5);
+    pointLight.position.set(1, 1, 1);
+    scene.add(pointLight);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
