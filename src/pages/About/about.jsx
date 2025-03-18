@@ -208,9 +208,13 @@ const About = () => {
     <div className="about-container">
       <div className="three-container" ref={threeContainerRef}></div>
       <div style={{ position: 'relative', zIndex: 10 }}>
-        <h2>リポジトリ 詳細</h2>
-        <p>Owner: <a href={`https://github.com/${repoInfo.owner}`} target="_blank" rel="noopener noreferrer">{repoInfo.owner}</a></p>
-        <p>Repository: <a href={`https://github.com/${repoInfo.owner}/${repoInfo.repo}`} target="_blank" rel="noopener noreferrer">{repoInfo.repo}</a></p>
+        {repoInfo && (
+          <div>
+            <h2>リポジトリ 詳細</h2>
+            <p>Owner: <a href={`https://github.com/${repoInfo.owner}`} target="_blank" rel="noopener noreferrer">{repoInfo.owner}</a></p>
+            <p>Repository: <a href={`https://github.com/${repoInfo.owner}/${repoInfo.repo}`} target="_blank" rel="noopener noreferrer">{repoInfo.repo}</a></p>
+          </div>
+        )}
       </div>
       <p style={{ position: 'relative', zIndex: 10 }}>あなたの評価: {grade} (スコア: {score}点)</p>
 
