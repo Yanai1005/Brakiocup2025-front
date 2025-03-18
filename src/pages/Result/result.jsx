@@ -16,6 +16,8 @@ const Result = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [isAdviceModalOpen, setIsAdviceModalOpen] = useState(false);
+    const [camera, setCamera] = useState(null);
+    const [isCameraClose, setIsCameraClose] = useState(false);
 
     const score = location.state ? location.state.score : 0;
     const evaluation = location.state ? location.state.evaluation : null;
@@ -59,6 +61,7 @@ const Result = () => {
     useEffect(() => {
         const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
         camera.position.z = 1;
+        setCamera(camera);
 
         const scene = new THREE.Scene();
 
@@ -140,6 +143,21 @@ const Result = () => {
             sphere.geometry.dispose();
         };
     }, [imagePath, score]);
+
+    const toggleCameraPosition = () => {
+        if (camera) {
+            if (isCameraClose) {
+                camera.position.z = 1;
+                camera.rotation.y = 0;
+                camera.rotation.x = 0;
+            } else {
+                camera.position.z = 0.55;
+                camera.rotation.y = Math.PI / 2;
+                camera.rotation.x = Math.PI / 2;
+            }
+            setIsCameraClose(!isCameraClose);
+        }
+    };
 
     const getAdvice = async () => {
         setIsLoading(true);
@@ -262,6 +280,8 @@ const Result = () => {
                     newReadme={advice.newReadme}
                 />
             )}
+
+            <button onClick={toggleCameraPosition} style={{ position: 'relative', zIndex: 10 }}>カメラの位置を切り替え</button>
 
             <Link to="/">
                 <button className="navigate-btn">ホーム画面</button>
