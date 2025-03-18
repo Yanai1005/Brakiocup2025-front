@@ -18,10 +18,9 @@ const Text = () => {
     setScore(value);
   };
 
+  // 手動スコア入力
   const handleManualScore = () => {
-    const rawScore = Math.round((score / 100) * 50);
-
-    const itemScore = Math.round((score / 100) * 10 * 2);
+    const itemScore = Math.round((score / 100) * 10);
 
     navigate('/about', {
       state: {
@@ -29,16 +28,17 @@ const Text = () => {
         textContent: text,
         score: score,
         evaluation: {
-          total_score: rawScore,
           clarity: itemScore,
           completeness: itemScore,
           structure: itemScore,
           examples: itemScore,
-          readability: itemScore
+          readability: itemScore,
+          total_score: itemScore * 5
         }
       }
     });
   };
+
   // Readmeの評価
   const handleEvaluate = async () => {
     setIsLoading(true);

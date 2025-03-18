@@ -75,22 +75,22 @@ const About = () => {
       attachedGeometry = new THREE.SphereGeometry(0.01, 32, 32);
     }
 
-    
+
     for (let i = 0; i < numObjects; i++) {
-    const attachedMesh = new THREE.Mesh(attachedGeometry, attachedMaterial);
+      const attachedMesh = new THREE.Mesh(attachedGeometry, attachedMaterial);
 
 
-    const phi = Math.acos(2 * Math.random() - 1);
-    const theta = 2 * Math.PI * Math.random();
-    const radius = 0.5; 
-    attachedMesh.position.set(
-      radius * Math.sin(phi) * Math.cos(theta),
-      radius * Math.sin(phi) * Math.sin(theta),
-      radius * Math.cos(phi)
-    );
+      const phi = Math.acos(2 * Math.random() - 1);
+      const theta = 2 * Math.PI * Math.random();
+      const radius = 0.5;
+      attachedMesh.position.set(
+        radius * Math.sin(phi) * Math.cos(theta),
+        radius * Math.sin(phi) * Math.sin(theta),
+        radius * Math.cos(phi)
+      );
 
-    sphere.add(attachedMesh);
-  }
+      sphere.add(attachedMesh);
+    }
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
@@ -130,11 +130,11 @@ const About = () => {
         <div className="evaluation-details">
           <h2>評価詳細</h2>
           <ul>
-            {evaluation.clarity !== undefined && <li>明確さ: {Math.floor(evaluation.clarity)}/20</li>}
-            {evaluation.completeness !== undefined && <li>完全性: {Math.floor(evaluation.completeness)}/20</li>}
-            {evaluation.structure !== undefined && <li>構造化: {Math.floor(evaluation.structure)}/20</li>}
-            {evaluation.examples !== undefined && <li>例示: {Math.floor(evaluation.examples)}/20</li>}
-            {evaluation.readability !== undefined && <li>可読性: {Math.floor(evaluation.readability)}/20</li>}
+            {evaluation.clarity !== undefined && <li>明確さ: {Math.floor(evaluation.clarity) * 2}/20</li>}
+            {evaluation.completeness !== undefined && <li>完全性: {Math.floor(evaluation.completeness) * 2}/20</li>}
+            {evaluation.structure !== undefined && <li>構造化: {Math.floor(evaluation.structure) * 2}/20</li>}
+            {evaluation.examples !== undefined && <li>例示: {Math.floor(evaluation.examples) * 2}/20</li>}
+            {evaluation.readability !== undefined && <li>可読性: {Math.floor(evaluation.readability) * 2}/20</li>}
           </ul>
         </div>
       )}
