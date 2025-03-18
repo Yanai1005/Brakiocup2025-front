@@ -23,7 +23,11 @@ export const parseRepoUrl = (url) => {
 
 export const fetchReadmeContent = async (owner, repo) => {
     try {
-        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/readme`);
+        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/readme`, {
+            headers: {
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
 
         if (!response.ok) {
             throw new Error(`READMEの取得に失敗: ${response.status}`);
@@ -31,7 +35,17 @@ export const fetchReadmeContent = async (owner, repo) => {
 
         const data = await response.json();
 
-        const content = atob(data.content.replace(/\n/g, ''));
+        const base64Content = data.content.replace(/\n/g, '');
+        const binaryString = atob(base64Content);
+        const bytes = new Uint8Array(binaryString.length);
+
+        for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+
+        const content = new TextDecoder('utf-8').decode(bytes);
+
+        console.log('README取得成功:', content.substring(0, 100) + '...');
         return content;
     } catch (error) {
         console.error('READMEの取得エラー:', error);
