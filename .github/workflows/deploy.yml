@@ -32,7 +32,9 @@ jobs:
       - name: Build and push Docker image
         run: |
           TAG=$(echo $GITHUB_SHA | head -c7)
-          docker build -t ${IMAGE_NAME}:${TAG} .
+          docker build \
+            --build-arg VITE_API_BASE_URL=${{ secrets.API_URL }} \
+            -t ${IMAGE_NAME}:${TAG} .
           docker push ${IMAGE_NAME}:${TAG}
 
       - name: Deploy to Cloud Run
@@ -42,4 +44,5 @@ jobs:
             --image ${IMAGE_NAME}:${TAG} \
             --platform managed \
             --region ${GCP_REGION} \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --set-env-vars "VITE_API_BASE_URL=${{ secrets.API_URL }}"

@@ -1,3 +1,5 @@
+import { getApiUrl, API_CONFIG } from '../config';
+
 export const getReadmeAdvice = async (inputData) => {
     if (!inputData) {
         throw new Error('データが必要です');
@@ -16,10 +18,11 @@ export const getReadmeAdvice = async (inputData) => {
         throw new Error('リポジトリ情報またはREADMEコンテンツが必要です');
     }
 
-    console.log('リクエストURL:', 'http://localhost:8080/github/advice');
+    const apiUrl = getApiUrl(API_CONFIG.ENDPOINTS.README_ADVICE);
+    console.log('リクエストURL:', apiUrl);
     console.log('リクエスト本文:', JSON.stringify(requestData));
 
-    const response = await fetch('http://localhost:8080/github/advice', {
+    const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
