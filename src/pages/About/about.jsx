@@ -13,32 +13,35 @@ const About = () => {
 
   let grade = '';
   let imagePath = '';
-  let imagePath2 = '';
+  let imagePath2 = '/images/green-leaves.jpg';
+  let imagePath3 = '/images/grass-texture.jpg';
   let numObjects = '';
+  let numObjects2 = '';
 
   if (score >= 90) {
     grade = 'A';
     numObjects = '100';
-    imagePath = '/images/grass-texture.jpg';
-    imagePath2 = '/images/green-leaves.jpg';
+    numObjects2 = '500';
+    imagePath = '/images/20170513022128.jpg';
   } else if (score >= 80) {
     grade = 'B';
     numObjects = '80';
-    imagePath = '/images/grass-texture.jpg';
-    imagePath2 = '/images/grass-texture.jpg';
+    numObjects2 = '400';
+    imagePath = '/images/20170513022128.jpg';
   } else if (score >= 70) {
     grade = 'C';
     numObjects = '60';
+    numObjects2 = '300';
     imagePath = '/images/20170513022128.jpg';
-    imagePath2 = '/images/grass-texture.jpg';
   } else if (score >= 60) {
     grade = 'D';
     numObjects = '40';
+    numObjects2 = '200';
     imagePath = '/images/土の枯.jpg';
-    imagePath2 = '/images/grass-texture.jpg';
   } else {
     grade = 'E';
     numObjects = '0';
+    numObjects2 = '100';
     imagePath = '/images/top-view-soil_23-2148175893.jpg';
     imagePath2 = '/images/green-leaves.jpg';
   }
@@ -58,25 +61,15 @@ const About = () => {
     scene.add(sphere);
 
     const texture2 = textureLoader.load(imagePath2);
-    const coneMaterial = new THREE.MeshBasicMaterial({ map: texture2 });
+    const texture3 = textureLoader.load(imagePath3);
+    const largeConeMaterial = new THREE.MeshBasicMaterial({ map: texture2 });
+    const smallConeMaterial = new THREE.MeshBasicMaterial({ map: texture3 });
 
-    let coneGeometry;
-
-    if (score >= 90) {
-      coneGeometry = new THREE.ConeGeometry(0.05, 0.2, 8);
-    } else if (score >= 80) {
-      coneGeometry = new THREE.ConeGeometry(0.04, 0.16, 8);
-    } else if (score >= 70) {
-      coneGeometry = new THREE.ConeGeometry(0.03, 0.12, 6);
-    } else if (score >= 60) {
-      coneGeometry = new THREE.ConeGeometry(0.02, 0.08, 6);
-    } else {
-      coneGeometry = new THREE.ConeGeometry(0.01, 0.04, 4);
-    }
+    const largeConeGeometry = new THREE.ConeGeometry(0.05, 0.2, 8);
+    const smallConeGeometry = new THREE.ConeGeometry(0.02, 0.08, 6);
 
     for (let i = 0; i < numObjects; i++) {
-      const coneMesh = new THREE.Mesh(coneGeometry, coneMaterial);
-
+      const coneMesh = new THREE.Mesh(largeConeGeometry, largeConeMaterial);
 
       const phi = Math.acos(2 * Math.random() - 1);
       const theta = 2 * Math.PI * Math.random();
@@ -86,16 +79,30 @@ const About = () => {
       const y = radius * Math.sin(phi) * Math.sin(theta);
       const z = radius * Math.cos(phi);
 
+      coneMesh.position.set(x, y, z);
+
+      const normal = new THREE.Vector3(x, y, z).normalize();
+      coneMesh.lookAt(normal);
+      coneMesh.rotateX(Math.PI / 2);
+
+      sphere.add(coneMesh);
+    }
+
+    for (let i = 0; i < numObjects2; i++) {
+      const coneMesh = new THREE.Mesh(smallConeGeometry, smallConeMaterial);
+
+      const phi = Math.acos(2 * Math.random() - 1);
+      const theta = 2 * Math.PI * Math.random();
+
+      const radius = 0.5;
+      const x = radius * Math.sin(phi) * Math.cos(theta);
+      const y = radius * Math.sin(phi) * Math.sin(theta);
+      const z = radius * Math.cos(phi);
 
       coneMesh.position.set(x, y, z);
 
-      // メモ:法線ベクトルでやってみる
       const normal = new THREE.Vector3(x, y, z).normalize();
-
-
       coneMesh.lookAt(normal);
-
-
       coneMesh.rotateX(Math.PI / 2);
 
       sphere.add(coneMesh);
