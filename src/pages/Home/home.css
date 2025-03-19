@@ -14,6 +14,25 @@
   width: 50%;
   height: 100%;
 }
+.alert-close-btn:hover {
+  background-color: #28a828;
+}
+
+.profile-analysis-btn {
+  background-color: #28a828;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 15px;
+}
+
+.profile-analysis-btn:hover {
+  background-color: #3a7bc8;
+}
 
 .app-name {
   font-size: 3.5rem;
