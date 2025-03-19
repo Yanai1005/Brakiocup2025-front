@@ -5,9 +5,9 @@ Greend meは、GitHubリポジトリのREADMEファイルを自動で評価し�
 
 ## 主な機能と特長
 - GitHubリポジトリURL入力による自動評価: リポジトリのURLを入力するだけで、READMEの質を自動分析します
-
+```
 対応形式: https://github.com/username/repo
-
+```
 - 5つの評価基準による総合評価: 各項目0〜10点で採点し、総合スコアを100点満点で表示
   - 明確さ: プロジェクトの目的や概要がわかりやすく説明されているか
   - 完全性: 環境構築、インストール手順、使用方法などの必要情報が含まれているか
@@ -28,24 +28,41 @@ Greend meは、GitHubリポジトリのREADMEファイルを自動で評価し�
 - 3Dビジュアル: Three.jsを使用した直感的なUI（評価に応じて変化する3D表現）
 
 ## 使い方
-1. [アプリケーションURL](ここにアプリケーションのURLを記載) にアクセスしてください。
-2. テキストエリアに評価したいREADMEファイルの内容を貼り付けます。
-3. 「評価」ボタンをクリックすると、評価結果と改善提案が表示されます。
+1. READMEの評価
+
+ホーム画面でGitHubリポジトリのURLを入力します
+
+入力例: https://github.com/username/repo
+
+<div align="center">
+  <img src="./Docs/imgs/home.png" alt="URL入力例" width="400">
+</div>
+
+「README評価」ボタンをクリックします
+評価結果が表示されます
+<div align="center">
+  <img src="./Docs/imgs/result.png" alt="評価結果例" width="400">
+</div>
+
+「READMEのアドバイスを取得」ボタンをクリックすると、改善提案と修正例が表示されます
+<div align="center">
+  <img src="./Docs/imgs/modul.png" alt="評価結果例" width="400">
+</div>
+1. ユーザーのREADME傾向分析
+ホーム画面の「ユーザーのREADME傾向分析」ボタンをクリックします
+GitHubユーザー名を入力します（例: Yanai1005）
+<div align="center">
+  <img src="./Docs/imgs/analysis.png" alt="ユーザー名入力例" width="400">
+</div>
+「プロフィール分析」ボタンをクリックします
+ユーザーのリポジトリ全体のREADME傾向が分析されます
+<div align="center">
+  <img src="./Docs/imgs/analysis-result.png" alt="分析結果例" width="400">
+</div>
 
 ## デモ
 アプリケーションの実際の動作は[Youtube](https://youtu.be/nY8PTTqP7kc)からご確認いただけます。
 
-## 使い方
-### READMEの評価
-ホーム画面でGitHubリポジトリのURLを入力します（例: https://github.com/username/repo または username/repo）   
-「README評価」ボタンをクリックします  
-評価結果と詳細なフィードバックが表示されます   
-「READMEのアドバイスを取得」ボタンをクリックすると、改善提案と修正例が表示されます
-### ユーザーのREADME傾向分析
-ホーム画面の「ユーザーのREADME傾向分析」ボタンをクリックします
-GitHubユーザー名を入力します
-「プロフィール分析」ボタンをクリックします
-ユーザーのリポジトリ全体のREADME傾向が分析されます
 
 ## 技術スタック
 - フロントエンド: React, React Router
