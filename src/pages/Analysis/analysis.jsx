@@ -175,14 +175,13 @@ const ProfileAnalysis = () => {
                             <DetailedBarChartComponent analysisData={analysisData} />
                         </div>
                     )}
-
-                    <div className="action-buttons">
-                        <Link to="/">
-                            <button className="navigate-btn">ホーム画面</button>
-                        </Link>
-                    </div>
                 </div>
             )}
+            <div className="action-buttons">
+                <Link to="/">
+                    <button className="navigate-btn">ホーム画面</button>
+                </Link>
+            </div>
         </div>
     );
 };
