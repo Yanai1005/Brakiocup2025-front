@@ -26,7 +26,7 @@ const Result = () => {
 
     let grade = '';
     let imagePath = '';
-    let imagePath2 = '/images/leaves.jpg';
+    let imagePath2 = '/images/leaves2.png';
     let imagePath3 = '/images/grass.jpg';
     let numObjects = '';
     let numObjects2 = '';
