@@ -2,17 +2,25 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 10;
 }
+
 .home-container p {
   color: #32cd32;
+  z-index: 10;
 }
+
 .three-container {
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
   height: 100%;
+  z-index: 0;
 }
 .alert-close-btn:hover {
   background-color: #28a828;
@@ -39,6 +47,7 @@
   font-weight: bold;
   color: #32cd32;
   margin-bottom: 30px;
+  z-index: 10;
 }
 
 .repo-input {
@@ -49,6 +58,8 @@
   border-radius: 8px;
   margin-bottom: 20px;
   transition: border-color 0.3s;
+  z-index: 10;
+  position: relative;
 }
 
 .repo-input:focus {
@@ -59,6 +70,7 @@
   color: #ff3333;
   margin-top: 10px;
   text-align: center;
+  z-index: 10;
 }
 
 /* アラート関連のスタイル */
