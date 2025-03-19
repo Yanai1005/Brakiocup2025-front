@@ -40,6 +40,7 @@ Greend meは、GitHubリポジトリのREADMEファイルを自動で評価し�
 
 「README評価」ボタンをクリックします
 評価結果が表示されます
+
 <div align="center">
   <img src="./Docs/imgs/result.png" alt="評価結果例" width="400">
 </div>
