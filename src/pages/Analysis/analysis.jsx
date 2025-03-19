@@ -137,7 +137,7 @@ const ProfileAnalysis = () => {
                             className="analyze-btn"
                             disabled={isLoading || !username.trim()}
                         >
-                            {isLoading ? '分析中...' : 'プロフィール分析'}
+                            {isLoading ? '分析中...' : 'README傾向分析'}
                         </button>
                         {error && <p className="error-message">{error}</p>}
                     </form>
@@ -162,7 +162,7 @@ const ProfileAnalysis = () => {
                                 <span>スコア: {getNormalizedScore()}点/100点</span>
                                 <span>リポジトリ: {analysisData.analyzed_count}/{analysisData.repository_count}</span>
                             </div>
-                            <button className="new-search-btn" onClick={() => setAnalysisData(null)}>新しい検索</button>
+                            <button className="new-search-btn" onClick={() => setAnalysisData(null)}>もう一度分析</button>
                         </div>
                     </div>
 
