@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import './ReadmeAdviceModal.css';
+import '../styles/ReadmeAdviceModal.css';
 
 const ReadmeAdviceModal = ({ isOpen, onClose, advice, newReadme }) => {
-    // 表示モード: 'advice' または 'readme'
     const [displayMode, setDisplayMode] = useState('advice');
     const [processedAdvice, setProcessedAdvice] = useState('');
 
     useEffect(() => {
         if (advice) {
             try {
-                // 「## 改善アドバイス」から「## 改善されたREADMEの例」の前までを抽出
                 const advicePattern = /## 改善アドバイス\s+([\s\S]*?)(?=## 改善されたREADMEの例|\Z)/;
                 const matches = advice.match(advicePattern);
 
                 if (matches && matches[1]) {
                     setProcessedAdvice(matches[1].trim());
                 } else {
-                    // 抽出できなかった場合は元のテキストをそのまま表示
                     console.log("アドバイス部分の抽出に失敗。元のテキストを表示します。");
                     setProcessedAdvice(advice);
                 }
